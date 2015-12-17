@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="script.js"></script>
 	<script type="text/javascript" src="addons/angular.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="addons/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 </head>
 <body>
 	<?php
