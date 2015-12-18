@@ -1,97 +1,75 @@
-﻿<!DOCTYPE html>
-<html ng-app="loginFormApp">
-<head>
-	<title>ARROW</title>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
-	<style type="text/css">
-        .loginForm input.ng-invalid.ng-dirty 
-        {
-            background-color: #FA787E;
-        }     
-        .loginForm input.ng-valid.ng-dirty 
-        {
-            background-color: #78FA89;
-        }
-    </style>
+﻿<?php
+	//error_reporting( E_ERROR );
+	if(isset($_POST['enter'])){
+		$login = $_POST["userEmail"];
+		$login = str_replace('.', '', $login);
+		$password = md5($_POST["userPassword"]);
+		$db_name  = 'arrow_db';
+	    $hostname = '127.0.0.1';
+	    $db_username = 'holmes';
+	    $db_password = '123';
 
-   	<script type="text/javascript" src="addons/angular_for_login.js"></script>
-	<script type="text/javascript">
-		var loginFormApp = angular.module('loginFormApp', []);
+	    // подключаемся к базе данных
+	    $dbh = new PDO("mysql:host=$hostname;dbname=$db_name", $db_username, $db_password);
 
-		loginFormApp.controller('loginCtrl',function($scope)
-		{
-			$scope.master= {};
-			$scope.update = function(user) 
-			{
-				$scope.master= angular.copy(user);
-			};
-					
-			$scope.reset = function() 
-			{
-				$scope.user = angular.copy($scope.master);
-			};
+	    // делаем запрос на получение данных
+	    $sql = 'SELECT login, password FROM users';
+	    
+	    $stmt = $dbh->prepare( $sql );
+		// запускаем запрос
+		$stmt->execute();
+		
+		$check_login = 0;
+		while ($compare = $stmt->fetch(PDO::FETCH_LAZY)){
+			if($login === $compare->login){
+				if($password === $compare->password){
+					//$login = str_replace('.', '', $login);
+					setcookie($login,"OK",time()+604800);
+					$check_login = 1;
+					header('Location:http://arrow.ru');
+  					exit;
+					break;
+				}
+				else{ 
+					echo "<script> alert('Пароль введён неверно'); </script>";
+					$check_login = 1;
+				}
+			}
+		}
+		if($check_login === 0)
+            echo "<script> alert('Логин не существует или введён неверно'); </script>";
+	}
+?>
+<?php
+	$db_name  = 'arrow_db';
+	$hostname = '127.0.0.1';
+	$db_username = 'holmes';
+	$db_password = '123';
 
-			$scope.isUnchanged = function(user) 
-			{
-				return angular.equals(user, $scope.master);
-			};
+	// подключаемся к базе данных
+	$dbh = new PDO("mysql:host=$hostname;dbname=$db_name", $db_username, $db_password);
 
-			$scope.reset();
-		});
-	</script>
-</head>
-<body>
-	<?php
-		include "menus/unlogged_registration_menu.php"; 
-	?>
-	&#65279;
-<!--/////////////////////////////Поле ввода логин/пароля//////////////////////////////-->
-	<div class="container">
-		<div class="col-md-4"></div>
-		<div class="col-md-4">
-			<div class="well" ng-controller="loginCtrl">
-				<form class="form-horizontal loginForm" name="loginForm" novalidate>
-					
-					<div class="form-group">
-					    <label for="userEmail" class="col-sm-2 control-label">Email</label>
-					    <div class="col-sm-10">
-					      	<input type="email" class="form-control" id="userEmail" name="userEmail" placeholder="Email" ng-model="user.email" required/>
-					    </div>
-					</div>
-					
-					<div class="form-group">
-					    <label for="userPassword" class="col-sm-2 control-label">Пароль</label>
-					    <div class="col-sm-10">
-					      	<input type="password" class="form-control" id="userPassword" name="userPassword" placeholder="Password" ng-model="user.password" required />
-					    </div>
-					</div>
-					
-					<div ng-show="loginForm.userEmail.$dirty && loginForm.userEmail.$invalid">
-						<span ng-show="loginForm.userEmail.$error.required">
-							<small>Пожалуйста, введите E-Mail</small>
-						</span>
-						<span ng-show="loginForm.userEmail.$error.email">
-							<small>E-Mail введён не верно</small>
-						</span>
-					</div>
-					
-					<div ng-show="loginForm.userPassword.$dirty && loginForm.userPassword.$invalid">
-						<span class="" ng-show="loginForm.userPassword.$error.required">
-							<small>Пожалуйста, введите пароль</small>
-						</span>
-					</div>
-					
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button style="float:right;" type="submit" class="btn btn-primary">Войти</button>
-					    </div>
-					</div>
-				</form>
-			</div>
-		</div>
-		<div class="col-md-4"></div>
-	</div>
-<!--//////////////////////////////////////////////////////////////////////////////////-->
-</body>
-</html>
+	    // делаем запрос на получение данных
+	$sql = 'SELECT login FROM users';
+	    
+	$stmt = $dbh->prepare( $sql );
+		// запускаем запрос
+	$stmt->execute();
+
+	$checkCookie = 0;
+	while ($compare = $stmt->fetch(PDO::FETCH_LAZY)){
+		if (isset($_COOKIE[$compare->login])){
+			$checkCookie = 1;
+			break;
+		}
+	}
+	if ($checkCookie === 0){
+		include "pages/unlogged_login_page.php";
+	}
+	else{
+		header('Refresh: 3; URL=http://arrow.ru');
+		echo "<center><h1>Вы уже авторизованы;)</h1></center>";
+		echo "<center><h3>..и поэтому будете изгнаны на главную страницу</h3></center>";
+	}		
+?>
+

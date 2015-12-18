@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	$db_name  = 'arrow_db';
 	$hostname = '127.0.0.1';
 	$db_username = 'holmes';
@@ -23,9 +23,10 @@
 		}
 	}
 	if ($checkCookie === 0){
-		include "pages/unlogged_index_page.php";
+		header('Location: http://arrow.ru');
 	}
 	else{
-		include "pages/logged_index_page.php";
-	}		
+		setcookie($cookieName, '', 0, '/');
+		header('Location: http://arrow.ru');
+	}	
 ?>
