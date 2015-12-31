@@ -19,24 +19,24 @@
 		// запускаем запрос
 		$stmt->execute();
 		
-		$check_login = 0;
+		$checkLogin = 0;
 		while ($compare = $stmt->fetch(PDO::FETCH_LAZY)){
 			if($login === $compare->login){
 				if($password === $compare->password){
 					//$login = str_replace('.', '', $login);
 					setcookie($login,"OK",time()+604800);
-					$check_login = 1;
+					$checkLogin = 1;
 					header('Location:http://arrow.ru');
   					exit;
 					break;
 				}
 				else{ 
 					echo "<script> alert('Пароль введён неверно'); </script>";
-					$check_login = 1;
+					$checkLogin = 1;
 				}
 			}
 		}
-		if($check_login === 0)
+		if($checkLogin === 0)
             echo "<script> alert('Логин не существует или введён неверно'); </script>";
 	}
 ?>
@@ -44,7 +44,7 @@
 	include "php_scripts/check_cookie.php";
 	$checkCookie = CheckCookies();
 	if ($checkCookie === 0){
-		include "pages/unlogged_login_page.php";
+		include "pages/login_page.php";
 	}
 	else{
 		header('Refresh: 3; URL=http://arrow.ru');
