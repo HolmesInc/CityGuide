@@ -80,10 +80,18 @@
 					<div ng-show="newUser.password!=newUser.confirmPassword">
 						<small>Пароли не совпадают</small>
 					</div>
+<!--
+					<div ng-show="$scope.errors!=0">
+						<small ng-repeat="error in errors">{{error}}</small>
+					</div>
 
+					<div ng-show="$scope.msgs!=0">
+						<small ng-repeat="msg in msgs">{{msg}}</small>
+					</div>
+-->
 					<div class="form-group" style="margin-bottom: 0px;">
 						<div class="col-sm-offset-2 col-sm-10">
-							<button style="float:right;" type="submit" class="btn btn-primary" name="signUp" ng-disabled="regForm.$invalid || ConfirmPass(newUser)">Поехали!</button>
+							<button style="float:right;" class="btn btn-primary" name="signUp" ng-disabled="regForm.$invalid || ConfirmPass(newUser)" ng-click="SignUp(newUser)">Поехали!</button>
 						</div>
 					</div>
 				</form>
