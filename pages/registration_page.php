@@ -12,6 +12,7 @@
 	</style>
 	<script type="text/javascript" src="addons/angular_for_login.js"></script>
 	<script type="text/javascript" src="script.js"></script>
+	<script src="https://www.google.com/recaptcha/api.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 </head>
@@ -25,7 +26,7 @@
 
 		<div class="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="index.php">Приветствую!</a></li>
+				<li><a href="index.php">Приветствую!</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="login.php">Войти</a></li>
@@ -80,15 +81,9 @@
 					<div ng-show="newUser.password!=newUser.confirmPassword">
 						<small>Пароли не совпадают</small>
 					</div>
-<!--
-					<div ng-show="$scope.errors!=0">
-						<small ng-repeat="error in errors">{{error}}</small>
-					</div>
 
-					<div ng-show="$scope.msgs!=0">
-						<small ng-repeat="msg in msgs">{{msg}}</small>
-					</div>
--->
+					<div class="g-recaptcha" data-sitekey="6Lc-jBQTAAAAAJ-hg6Iqt92BXtzV1uSPxA08Et00"></div>
+
 					<div class="form-group" style="margin-bottom: 0px;">
 						<div class="col-sm-offset-2 col-sm-10">
 							<button style="float:right;" class="btn btn-primary" name="signUp" ng-disabled="regForm.$invalid || ConfirmPass(newUser)" ng-click="SignUp(newUser)">Поехали!</button>

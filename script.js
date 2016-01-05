@@ -34,7 +34,6 @@ var regFormApp = angular.module('regFormApp', []);
 
 regFormApp.controller('regCtrl', function($scope, $http){
 	$scope.master = {};
-	$scope.dbInfo = {};
 	/*$scope.Update = function(newUser) {
 		$scope.master= angular.copy(newUser);
 	};*/
@@ -43,16 +42,20 @@ regFormApp.controller('regCtrl', function($scope, $http){
 	};
 
 	$scope.SignUp = function(newUser){
+		newUser.checkEmail = false;//переменная для проверки на существующий email
 		$http.get('php_scripts/check_user.php').success(function(data){
-			$scope.dbInfo = data;		
-			for(var i=0;i<$scope.dbInfo.length;i++){
-				if(newUser.email===$scope.dbInfo[i].email){
-					alert('vo kruto');
+			$scope.dbInfo = data;
+			for(var i = 0; i < $scope.dbInfo.length; i++){
+				if(newUser.email==$scope.dbInfo[i].email){
+					newUser.checkEmail = true;
 				}
-				else
-					alert('norm');
+			}
+			if(newUser.checkEmail==true){
+				alert("К сожалению, такой E-Mail уже зарегестрирован");
+			}
+			else{
+				$http.post('php_scripts/user_registration.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password});
 			}
 		});
-		//$http.post('php_scripts/registration_new_user.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password});
 	}
 });
