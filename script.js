@@ -30,9 +30,9 @@ loginFormApp.controller('loginCtrl',function($scope, $http){
 						
 });
 //////////////////////REGISTRATION//////////////////////////////
-var regFormApp = angular.module('regFormApp', []);
+var regFormApp = angular.module('regFormApp', ['vcRecaptcha']);
 
-regFormApp.controller('regCtrl', function($scope, $http){
+regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 	$scope.master = {};
 	/*$scope.Update = function(newUser) {
 		$scope.master= angular.copy(newUser);
@@ -54,7 +54,10 @@ regFormApp.controller('regCtrl', function($scope, $http){
 				alert("К сожалению, такой E-Mail уже зарегестрирован");
 			}
 			else{
-				$http.post('php_scripts/user_registration.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password});
+				$http.post('php_scripts/user_registration.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password}).success(function(){
+					alert("Поздравляем, Вы зарегистрировались!");
+					window.location.replace("http://arrow.ru/login.php");
+				});
 			}
 		});
 	}

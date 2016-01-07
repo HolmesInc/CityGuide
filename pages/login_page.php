@@ -2,6 +2,7 @@
 <html ng-app="loginFormApp">
 <head>
 	<title>ARROW</title>
+	<link rel="shortcut icon" href="addons/arrow.ico" type="image/x-icon">
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">

@@ -2,6 +2,7 @@
 <html ng-app="regFormApp">
 <head>
 	<title>ARROW</title>
+	<link rel="shortcut icon" href="addons/arrow.ico" type="image/x-icon">
 	<style type="text/css">
 		.regForm input.ng-invalid.ng-dirty {
 			background-color: #FA787E;
@@ -10,9 +11,12 @@
 			background-color: #78FA89;
 		}
 	</style>
-	<script type="text/javascript" src="addons/angular_for_login.js"></script>
+
+	<script src="addons/angular.js"></script>
+	<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
+	<script src="https://cdn.rawgit.com/VividCortex/angular-recaptcha/master/release/angular-recaptcha.js"></script>
 	<script type="text/javascript" src="script.js"></script>
-	<script src="https://www.google.com/recaptcha/api.js"></script>
+	<script type="text/javascript" src="addons/angular-recaptcha.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 </head>
@@ -39,7 +43,7 @@
 		<div class="col-md-4"></div>
 		<div class="col-md-4">
 			<div class="well" ng-controller="regCtrl">
-				<form class="form-horizontal regForm" name="regForm" role="form" method="post" action="registration.php" novalidate>
+				<form class="form-horizontal regForm" name="regForm" role="form" novalidate>
 
 					<div class="form-group">
 						<label for="regUserName" class="col-sm-2 control-label">Имя</label>
@@ -82,7 +86,9 @@
 						<small>Пароли не совпадают</small>
 					</div>
 
-					<div class="g-recaptcha" data-sitekey="6Lc-jBQTAAAAAJ-hg6Iqt92BXtzV1uSPxA08Et00"></div>
+					<center>
+						<div class="form-group" vc-recaptcha key="'6Lc-jBQTAAAAAJ-hg6Iqt92BXtzV1uSPxA08Et00'"></div>
+					</center>
 
 					<div class="form-group" style="margin-bottom: 0px;">
 						<div class="col-sm-offset-2 col-sm-10">
