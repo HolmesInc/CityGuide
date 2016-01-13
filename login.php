@@ -4,16 +4,16 @@
 		$login = $_POST["userEmail"];
 		$login = str_replace('.', '', $login);
 		$password = md5($_POST["userPassword"]);
-		$db_name  = 'arrow_db';
+		$dbName  = 'arrow_db';
 	    $hostname = '127.0.0.1';
-	    $db_username = 'holmes';
-	    $db_password = '123';
+	    $dbUsername = 'holmes';
+	    $dbPassword = '123';
 
 	    // подключаемся к базе данных
-	    $dbh = new PDO("mysql:host=$hostname;dbname=$db_name", $db_username, $db_password);
+	    $dbh = new PDO("mysql:host=$hostname;dbname=$dbName", $dbUsername, $dbPassword);
 
 	    // делаем запрос на получение данных
-	    $sql = 'SELECT login, password FROM users';
+	    $sql = 'SELECT name, login, password FROM users';
 	    
 	    $stmt = $dbh->prepare( $sql );
 		// запускаем запрос
@@ -24,7 +24,7 @@
 			if($login === $compare->login){
 				if($password === $compare->password){
 					//$login = str_replace('.', '', $login);
-					setcookie($login,"OK",time()+604800);
+					setcookie($login,$compare->name,time()+604800);
 					$checkLogin = 1;
 					header('Location:http://arrow.ru');
   					exit;

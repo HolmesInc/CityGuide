@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>ARROW</title>
-	<link rel="shortcut icon" href="addons/arrow.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="img/arrow.ico" type="image/x-icon">
 	<script type="text/javascript" src="script.js"></script>
 	<script type="text/javascript" src="addons/angular.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
