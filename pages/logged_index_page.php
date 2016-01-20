@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
-<html>
+<html ng-app="indexApp">
 <head>
 	<title>ARROW</title>
 	<link rel="shortcut icon" href="../img/arrow.ico" type="image/x-icon">
-	<script type="text/javascript" src="../script.js"></script>
 	<script type="text/javascript" src="../addons/angular.js"></script>
+	<script type="text/javascript" src="../script.js"></script>
 	<link rel="stylesheet" type="text/css" href="../style.css">
 	<link rel="stylesheet" type="text/css" href="../addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
@@ -33,6 +33,7 @@
 		<div class="navbar-collapse">
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="../index.php">Чертоги</a></li>
+				<li><a href="../functionality/votes/rating.php">Голосуем</a></li>
 				<li><a href="../functionality/notes/toDo.php">Пометки</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">

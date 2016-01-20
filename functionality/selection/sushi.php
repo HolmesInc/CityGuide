@@ -7,6 +7,6 @@
 		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
-		include "../../functionality/selection/pages/sushi_page.php";
+		include "../../pages/functionality/sushi_page.php";
 	}
 ?>

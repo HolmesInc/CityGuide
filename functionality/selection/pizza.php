@@ -7,6 +7,6 @@
 		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
-		include "../../functionality/selection/pages/pizza_page.php";
+		include "../../pages/functionality/pizza_page.php";
 	}
 ?>

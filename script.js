@@ -1,4 +1,6 @@
-﻿/////////////////////////LOGIN/////////////////////////////////
+﻿/////////////////////////INDEX/////////////////////////////////
+var indexApp = angular.module('indexApp', []);
+/////////////////////////LOGIN/////////////////////////////////
 var loginFormApp = angular.module('loginFormApp', []);
 
 loginFormApp.controller('loginCtrl',function($scope, $http){
@@ -61,4 +63,10 @@ regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 			}
 		});
 	}
+});
+////////////////////CLUBS SELECTION/////////////////////////////
+var clubsApp = angular.module('clubsApp', []);
+
+clubsApp.controller('clubCtrl', function(){
+
 });
