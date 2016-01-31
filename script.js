@@ -67,6 +67,30 @@ regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 ////////////////////CLUBS SELECTION/////////////////////////////
 var clubsApp = angular.module('clubsApp', []);
 
-clubsApp.controller('clubCtrl', function(){
+clubsApp.controller('clubCtrl', function($scope, $http){
+	$scope.nearMetro = 0;
+	$scope.lowPrice = 0;
+	$scope.highPrice = 0;
+	$scope.moreTime = 0;
+	$scope.ShowInfo = function(checker) {
+		switch (checker){
+			case 1: 
+				$scope.nearMetro += 1;
+				alert("Metro "+$scope.nearMetro);
+				break;
+			case 2: 
+				$scope.lowPrice += 1;
+				alert("Low"+$scope.lowPrice);
+				break;
+			case 3: 
+				$scope.highPrice += 1;
+				alert("High"+$scope.highPrice);
+				break;
+			case 4: 
+				$scope.moreTime += 1;
+				alert("Time"+$scope.moreTime);
+				break;
 
+		}
+	}
 });

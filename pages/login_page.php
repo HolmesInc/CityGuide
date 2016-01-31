@@ -6,11 +6,14 @@
 	<link rel="stylesheet" type="text/css" href="../style.css">
 	<link rel="stylesheet" type="text/css" href="../addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
-	.loginForm input.ng-invalid.ng-dirty {
+		.loginForm input.ng-invalid.ng-dirty {
 			background-color: #FA787E;
 		}
 		.loginForm input.ng-valid.ng-dirty {
 			background-color: #78FA89;
+		}
+		.navbar-brand a {
+			text-decoration: none;
 		}
 	</style>
 	<script type="text/javascript" src="addons/angular_for_login.js"></script>
@@ -20,7 +23,7 @@
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<nav role="navigation" class="navbar navbar-default">	
 		<div class="navbar-header">
-			<div class="navbar-brand">ARROW</div>
+			<div class="navbar-brand"><a href="../../index.php"> < ARROW</a></div>
 		</div>
 		
 		<div class="navbar-collapse">

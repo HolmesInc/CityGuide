@@ -7,6 +7,6 @@
 		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
-		include "../../pages/functionality/club_page.php";
+		include "../../pages/functionality/selection/club_page.php";
 	}
 ?>

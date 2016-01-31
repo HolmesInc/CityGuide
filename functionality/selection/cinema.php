@@ -7,6 +7,6 @@
 		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
-		include "../../pages/functionality/cinema_page.php";
+		include "../../pages/functionality/selection/cinema_page.php";
 	}
 ?>

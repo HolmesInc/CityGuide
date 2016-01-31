@@ -3,6 +3,8 @@
 <head>
 	<title>ARROW</title>
 	<link rel="shortcut icon" href="img/arrow.ico" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
 		.regForm input.ng-invalid.ng-dirty {
 			background-color: #FA787E;
@@ -10,22 +12,22 @@
 		.regForm input.ng-valid.ng-dirty {
 			background-color: #78FA89;
 		}
+		.navbar-brand a {
+			text-decoration: none;
+		}
 	</style>
-
 	<script src="addons/angular.js"></script>
 	<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>
 	<script src="https://cdn.rawgit.com/VividCortex/angular-recaptcha/master/release/angular-recaptcha.js"></script>
 	<script type="text/javascript" src="script.js"></script>
 	<script type="text/javascript" src="addons/angular-recaptcha.js"></script>
-	<link rel="stylesheet" type="text/css" href="style.css">
-	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 </head>
 <body>
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<nav role="navigation" class="navbar navbar-default">
 
 		<div class="navbar-header">
-			<a href="#" class="navbar-brand">ARROW</a>
+			<div class="navbar-brand"><a href="../../login.php"> < ARROW</a></div>
 		</div>
 
 		<div class="navbar-collapse">

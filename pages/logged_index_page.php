@@ -34,7 +34,7 @@
 			<ul class="nav navbar-nav">
 				<li class="active"><a href="../index.php">Чертоги</a></li>
 				<li><a href="../functionality/votes/rating.php">Голосуем</a></li>
-				<li><a href="../functionality/notes/toDo.php">Пометки</a></li>
+				<li><a href="../functionality/notes/toDo.php">Дела</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li><a href="../php_scripts/unlogining_user.php">Выйти</a></li>
