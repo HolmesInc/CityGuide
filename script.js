@@ -65,18 +65,45 @@ regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 	}
 });
 ////////////////////CLUBS SELECTION/////////////////////////////
-var clubsApp = angular.module('clubsApp', []);
+var clubsApp = angular.module('clubsApp', ['tableSort']);
 
 clubsApp.controller('clubCtrl', function($scope, $http){
 	$scope.nearMetro = 0;
 	$scope.lowPrice = 0;
 	$scope.highPrice = 0;
 	$scope.moreTime = 0;
+	$scope.splicedMetro = [];
+	$http.get('../../php_scripts/get_clubs_data.php').then(function (response) {
+				$scope.dbInfo = response.data;
+			});
 	$scope.ShowInfo = function(checker) {
-		switch (checker){
+		switch (checker) {
 			case 1: 
 				$scope.nearMetro += 1;
-				alert("Metro "+$scope.nearMetro);
+				if($scope.nearMetro % 2 != 0){
+					for(var i = 0; i < $scope.dbInfo.length; i++) {
+						if($scope.dbInfo[i].metro == '-') {
+							$scope.splicedMetro.push({'name':$scope.dbInfo[i].name, 'pryce_index':$scope.dbInfo[i].pryce_index,
+								'rating':$scope.dbInfo[i].rating, 'open_time':$scope.dbInfo[i].open_time,
+								'close_time':$scope.dbInfo[i].close_time, 'adress':$scope.dbInfo[i].adress,
+								'metro':$scope.dbInfo[i].metro, 'phone':$scope.dbInfo[i].phone, 'site':$scope.dbInfo[i].site});
+							$scope.dbInfo.splice(i, 1);
+						}
+					}
+					for(var i = 0; i < $scope.splicedMetro.length; i++) {
+						console.log($scope.splicedMetro[i].name + $scope.splicedMetro[i].phone);
+					}
+				}
+				else
+					if($scope.nearMetro % 2 == 0) {
+					for(var i = 0; i < $scope.splicedMetro.length; i++) {
+						$scope.dbInfo.push({'name':$scope.splicedMetro[i].name, 'pryce_index':$scope.splicedMetro[i].pryce_index,
+								'rating':$scope.splicedMetro[i].rating, 'open_time':$scope.splicedMetro[i].open_time,
+								'close_time':$scope.splicedMetro[i].close_time, 'adress':$scope.splicedMetro[i].adress,
+								'metro':$scope.splicedMetro[i].metro, 'phone':$scope.splicedMetro[i].phone, 'site':$scope.splicedMetro[i].site});
+					}
+					$scope.splicedMetro = [];
+				}
 				break;
 			case 2: 
 				$scope.lowPrice += 1;
