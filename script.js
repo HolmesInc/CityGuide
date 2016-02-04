@@ -75,6 +75,22 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 	$http.get('../../php_scripts/get_clubs_data.php').then(function (response) {
 				$scope.dbInfo = response.data;
 			});
+	$scope.ReturnData = function(splicedData) {
+		for(var i = 0; i < splicedData.length; i++) {
+			$scope.dbInfo.push({
+				'name':splicedData[i].name, 
+				'pryce_index':splicedData[i].pryce_index,
+				'rating':splicedData[i].rating, 
+				'open_time':splicedData[i].open_time,
+				'close_time':splicedData[i].close_time, 
+				'adress':splicedData[i].adress,
+				'metro': splicedData[i].metro,
+				'phone':splicedData[i].phone, 
+				'site':splicedData[i].site
+			});
+		}
+		splicedData = [];
+	}
 	$scope.ShowInfo = function(checker) {
 		var dbInfoLength = $scope.dbInfo.length
 		switch (checker) {
@@ -103,21 +119,24 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 				}
 				else
 					if($scope.nearMetro % 2 == 0) {
-					for(var i = 0; i < $scope.splicedMetro.length; i++) {
-						$scope.dbInfo.push({
-							'name':$scope.splicedMetro[i].name, 
-							'pryce_index':$scope.splicedMetro[i].pryce_index,
-							'rating':$scope.splicedMetro[i].rating, 
-							'open_time':$scope.splicedMetro[i].open_time,
-							'close_time':$scope.splicedMetro[i].close_time, 
-							'adress':$scope.splicedMetro[i].adress,
-							'metro': $scope.splicedMetro[i].metro,
-							'phone':$scope.splicedMetro[i].phone, 
-							'site':$scope.splicedMetro[i].site
-						});
+					/*
+						for(var i = 0; i < $scope.splicedMetro.length; i++) {
+							$scope.dbInfo.push({
+								'name':$scope.splicedMetro[i].name, 
+								'pryce_index':$scope.splicedMetro[i].pryce_index,
+								'rating':$scope.splicedMetro[i].rating, 
+								'open_time':$scope.splicedMetro[i].open_time,
+								'close_time':$scope.splicedMetro[i].close_time, 
+								'adress':$scope.splicedMetro[i].adress,
+								'metro': $scope.splicedMetro[i].metro,
+								'phone':$scope.splicedMetro[i].phone, 
+								'site':$scope.splicedMetro[i].site
+							});
+						}
+						$scope.splicedMetro = [];
+					*/
+					$scope.ReturnData($scope.splicedMetro);
 					}
-					$scope.splicedMetro = [];
-				}
 				break;
 			case 2: 
 				$scope.lowPrice += 1;
@@ -144,21 +163,24 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 				}
 				else
 					if($scope.lowPrice % 2 == 0) {
-					for(var i = 0; i < $scope.splicedLowPrice.length; i++) {
-						$scope.dbInfo.push({
-							'name':$scope.splicedLowPrice[i].name, 
-							'pryce_index':$scope.splicedLowPrice[i].pryce_index,
-							'rating':$scope.splicedLowPrice[i].rating, 
-							'open_time':$scope.splicedLowPrice[i].open_time,
-							'close_time':$scope.splicedLowPrice[i].close_time, 
-							'adress':$scope.splicedLowPrice[i].adress,
-							'metro': $scope.splicedLowPrice[i].metro,
-							'phone':$scope.splicedLowPrice[i].phone, 
-							'site':$scope.splicedLowPrice[i].site
-						});
+						/*
+						for(var i = 0; i < $scope.splicedLowPrice.length; i++) {
+							$scope.dbInfo.push({
+								'name':$scope.splicedLowPrice[i].name, 
+								'pryce_index':$scope.splicedLowPrice[i].pryce_index,
+								'rating':$scope.splicedLowPrice[i].rating, 
+								'open_time':$scope.splicedLowPrice[i].open_time,
+								'close_time':$scope.splicedLowPrice[i].close_time, 
+								'adress':$scope.splicedLowPrice[i].adress,
+								'metro': $scope.splicedLowPrice[i].metro,
+								'phone':$scope.splicedLowPrice[i].phone, 
+								'site':$scope.splicedLowPrice[i].site
+							});
+						}
+						$scope.splicedLowPrice = [];
+						*/
+						$scope.ReturnData($scope.splicedLowPrice);
 					}
-					$scope.splicedLowPrice = [];
-				}
 				break;
 			case 3: 
 				$scope.highPrice += 1;
@@ -185,21 +207,24 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 				}
 				else
 					if($scope.highPrice % 2 == 0) {
-					for(var i = 0; i < $scope.splicedHighPrice.length; i++) {
-						$scope.dbInfo.push({
-							'name':$scope.splicedHighPrice[i].name, 
-							'pryce_index':$scope.splicedHighPrice[i].pryce_index,
-							'rating':$scope.splicedHighPrice[i].rating, 
-							'open_time':$scope.splicedHighPrice[i].open_time,
-							'close_time':$scope.splicedHighPrice[i].close_time, 
-							'adress':$scope.splicedHighPrice[i].adress,
-							'metro': $scope.splicedHighPrice[i].metro,
-							'phone':$scope.splicedHighPrice[i].phone, 
-							'site':$scope.splicedHighPrice[i].site
-						});
+						/*
+						for(var i = 0; i < $scope.splicedHighPrice.length; i++) {
+							$scope.dbInfo.push({
+								'name':$scope.splicedHighPrice[i].name, 
+								'pryce_index':$scope.splicedHighPrice[i].pryce_index,
+								'rating':$scope.splicedHighPrice[i].rating, 
+								'open_time':$scope.splicedHighPrice[i].open_time,
+								'close_time':$scope.splicedHighPrice[i].close_time, 
+								'adress':$scope.splicedHighPrice[i].adress,
+								'metro': $scope.splicedHighPrice[i].metro,
+								'phone':$scope.splicedHighPrice[i].phone, 
+								'site':$scope.splicedHighPrice[i].site
+							});
+						}
+						$scope.splicedHighPrice = [];
+						*/
+						$scope.ReturnData($scope.splicedHighPrice);
 					}
-					$scope.splicedHighPrice = [];
-				}
 				break;
 			case 4: 
 				$scope.withSite += 1;
@@ -226,21 +251,24 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 				}
 				else
 					if($scope.withSite % 2 == 0) {
-					for(var i = 0; i < $scope.splicedWithSite.length; i++) {
-						$scope.dbInfo.push({
-							'name':$scope.splicedWithSite[i].name, 
-							'pryce_index':$scope.splicedWithSite[i].pryce_index,
-							'rating':$scope.splicedWithSite[i].rating, 
-							'open_time':$scope.splicedWithSite[i].open_time,
-							'close_time':$scope.splicedWithSite[i].close_time, 
-							'adress':$scope.splicedWithSite[i].adress,
-							'metro': $scope.splicedWithSite[i].metro,
-							'phone':$scope.splicedWithSite[i].phone, 
-							'site':$scope.splicedWithSite[i].site
-						});
+						/*
+						for(var i = 0; i < $scope.splicedWithSite.length; i++) {
+							$scope.dbInfo.push({
+								'name':$scope.splicedWithSite[i].name, 
+								'pryce_index':$scope.splicedWithSite[i].pryce_index,
+								'rating':$scope.splicedWithSite[i].rating, 
+								'open_time':$scope.splicedWithSite[i].open_time,
+								'close_time':$scope.splicedWithSite[i].close_time, 
+								'adress':$scope.splicedWithSite[i].adress,
+								'metro': $scope.splicedWithSite[i].metro,
+								'phone':$scope.splicedWithSite[i].phone, 
+								'site':$scope.splicedWithSite[i].site
+							});
+						}
+						$scope.splicedWithSite = [];
+						*/
+						$scope.ReturnData($scope.splicedWithSite);
 					}
-					$scope.splicedWithSite = [];
-				}
 				break;
 		}
 	}
