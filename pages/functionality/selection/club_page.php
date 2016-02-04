@@ -97,9 +97,9 @@
 						</li>
 						<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
 							<div class="material-switch">
-								<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.moreTime" ng-change="ShowInfo(4)"/>
+								<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4)"/>
 								<label for="switchOptionPrimary4" class="label-primary"></label>
-								Подольше работает
+								Есть сайт
 							</div>
 						</li>
 					</ul>

@@ -71,53 +71,177 @@ clubsApp.controller('clubCtrl', function($scope, $http){
 	$scope.nearMetro = 0;
 	$scope.lowPrice = 0;
 	$scope.highPrice = 0;
-	$scope.moreTime = 0;
-	$scope.splicedMetro = [];
+	$scope.withSite = 0;
 	$http.get('../../php_scripts/get_clubs_data.php').then(function (response) {
 				$scope.dbInfo = response.data;
 			});
 	$scope.ShowInfo = function(checker) {
+		var dbInfoLength = $scope.dbInfo.length
 		switch (checker) {
 			case 1: 
 				$scope.nearMetro += 1;
-				if($scope.nearMetro % 2 != 0){
-					for(var i = 0; i < $scope.dbInfo.length; i++) {
-						if($scope.dbInfo[i].metro == '-') {
-							$scope.splicedMetro.push({'name':$scope.dbInfo[i].name, 'pryce_index':$scope.dbInfo[i].pryce_index,
-								'rating':$scope.dbInfo[i].rating, 'open_time':$scope.dbInfo[i].open_time,
-								'close_time':$scope.dbInfo[i].close_time, 'adress':$scope.dbInfo[i].adress,
-								'metro':$scope.dbInfo[i].metro, 'phone':$scope.dbInfo[i].phone, 'site':$scope.dbInfo[i].site});
-							$scope.dbInfo.splice(i, 1);
+				if($scope.nearMetro % 2 != 0) {
+					$scope.splicedMetro = [];
+					for(var j = 0; j < dbInfoLength; j++) {
+						for(var i = 0; i < $scope.dbInfo.length; i++) {
+							if($scope.dbInfo[i].metro == '-') {							
+								$scope.splicedMetro.push({
+									'name':$scope.dbInfo[i].name, 
+									'pryce_index':$scope.dbInfo[i].pryce_index,
+									'rating':$scope.dbInfo[i].rating,
+									'open_time':$scope.dbInfo[i].open_time,
+									'close_time':$scope.dbInfo[i].close_time, 
+									'adress':$scope.dbInfo[i].adress,
+									'metro':$scope.dbInfo[i].metro,
+									'phone':$scope.dbInfo[i].phone, 
+									'site':$scope.dbInfo[i].site
+								});
+								$scope.dbInfo.splice(i, 1);
+							}
 						}
-					}
-					for(var i = 0; i < $scope.splicedMetro.length; i++) {
-						console.log($scope.splicedMetro[i].name + $scope.splicedMetro[i].phone);
 					}
 				}
 				else
 					if($scope.nearMetro % 2 == 0) {
 					for(var i = 0; i < $scope.splicedMetro.length; i++) {
-						$scope.dbInfo.push({'name':$scope.splicedMetro[i].name, 'pryce_index':$scope.splicedMetro[i].pryce_index,
-								'rating':$scope.splicedMetro[i].rating, 'open_time':$scope.splicedMetro[i].open_time,
-								'close_time':$scope.splicedMetro[i].close_time, 'adress':$scope.splicedMetro[i].adress,
-								'metro':$scope.splicedMetro[i].metro, 'phone':$scope.splicedMetro[i].phone, 'site':$scope.splicedMetro[i].site});
+						$scope.dbInfo.push({
+							'name':$scope.splicedMetro[i].name, 
+							'pryce_index':$scope.splicedMetro[i].pryce_index,
+							'rating':$scope.splicedMetro[i].rating, 
+							'open_time':$scope.splicedMetro[i].open_time,
+							'close_time':$scope.splicedMetro[i].close_time, 
+							'adress':$scope.splicedMetro[i].adress,
+							'metro': $scope.splicedMetro[i].metro,
+							'phone':$scope.splicedMetro[i].phone, 
+							'site':$scope.splicedMetro[i].site
+						});
 					}
 					$scope.splicedMetro = [];
 				}
 				break;
 			case 2: 
 				$scope.lowPrice += 1;
-				alert("Low"+$scope.lowPrice);
+				if($scope.lowPrice % 2 != 0) {
+						$scope.splicedLowPrice = [];
+					for(var j = 0; j < dbInfoLength; j++) {
+						for(var i = 0; i < $scope.dbInfo.length; i++) {
+							if( parseInt($scope.dbInfo[i].pryce_index) >= 3 ) {
+								$scope.splicedLowPrice.push({
+									'name':$scope.dbInfo[i].name, 
+									'pryce_index':$scope.dbInfo[i].pryce_index,
+									'rating':$scope.dbInfo[i].rating,
+									'open_time':$scope.dbInfo[i].open_time,
+									'close_time':$scope.dbInfo[i].close_time, 
+									'adress':$scope.dbInfo[i].adress,
+									'metro':$scope.dbInfo[i].metro,
+									'phone':$scope.dbInfo[i].phone, 
+									'site':$scope.dbInfo[i].site
+								});
+								$scope.dbInfo.splice(i, 1);
+							}
+						}
+					}
+				}
+				else
+					if($scope.lowPrice % 2 == 0) {
+					for(var i = 0; i < $scope.splicedLowPrice.length; i++) {
+						$scope.dbInfo.push({
+							'name':$scope.splicedLowPrice[i].name, 
+							'pryce_index':$scope.splicedLowPrice[i].pryce_index,
+							'rating':$scope.splicedLowPrice[i].rating, 
+							'open_time':$scope.splicedLowPrice[i].open_time,
+							'close_time':$scope.splicedLowPrice[i].close_time, 
+							'adress':$scope.splicedLowPrice[i].adress,
+							'metro': $scope.splicedLowPrice[i].metro,
+							'phone':$scope.splicedLowPrice[i].phone, 
+							'site':$scope.splicedLowPrice[i].site
+						});
+					}
+					$scope.splicedLowPrice = [];
+				}
 				break;
 			case 3: 
 				$scope.highPrice += 1;
-				alert("High"+$scope.highPrice);
+				if($scope.highPrice % 2 != 0) {
+						$scope.splicedHighPrice = [];
+					for(var j = 0; j < dbInfoLength; j++) {
+						for(var i = 0; i < $scope.dbInfo.length; i++) {
+							if( parseInt($scope.dbInfo[i].pryce_index) < 3 ) {
+								$scope.splicedHighPrice.push({
+									'name':$scope.dbInfo[i].name, 
+									'pryce_index':$scope.dbInfo[i].pryce_index,
+									'rating':$scope.dbInfo[i].rating,
+									'open_time':$scope.dbInfo[i].open_time,
+									'close_time':$scope.dbInfo[i].close_time, 
+									'adress':$scope.dbInfo[i].adress,
+									'metro':$scope.dbInfo[i].metro,
+									'phone':$scope.dbInfo[i].phone, 
+									'site':$scope.dbInfo[i].site
+								});
+								$scope.dbInfo.splice(i, 1);
+							}
+						}
+					}
+				}
+				else
+					if($scope.highPrice % 2 == 0) {
+					for(var i = 0; i < $scope.splicedHighPrice.length; i++) {
+						$scope.dbInfo.push({
+							'name':$scope.splicedHighPrice[i].name, 
+							'pryce_index':$scope.splicedHighPrice[i].pryce_index,
+							'rating':$scope.splicedHighPrice[i].rating, 
+							'open_time':$scope.splicedHighPrice[i].open_time,
+							'close_time':$scope.splicedHighPrice[i].close_time, 
+							'adress':$scope.splicedHighPrice[i].adress,
+							'metro': $scope.splicedHighPrice[i].metro,
+							'phone':$scope.splicedHighPrice[i].phone, 
+							'site':$scope.splicedHighPrice[i].site
+						});
+					}
+					$scope.splicedHighPrice = [];
+				}
 				break;
 			case 4: 
-				$scope.moreTime += 1;
-				alert("Time"+$scope.moreTime);
+				$scope.withSite += 1;
+				if($scope.withSite % 2 != 0) {
+						$scope.splicedWithSite = [];
+					for(var j = 0; j < dbInfoLength; j++) {
+						for(var i = 0; i < $scope.dbInfo.length; i++) {
+							if( $scope.dbInfo[i].site == '-' ) {
+								$scope.splicedWithSite.push({
+									'name':$scope.dbInfo[i].name, 
+									'pryce_index':$scope.dbInfo[i].pryce_index,
+									'rating':$scope.dbInfo[i].rating,
+									'open_time':$scope.dbInfo[i].open_time,
+									'close_time':$scope.dbInfo[i].close_time, 
+									'adress':$scope.dbInfo[i].adress,
+									'metro':$scope.dbInfo[i].metro,
+									'phone':$scope.dbInfo[i].phone, 
+									'site':$scope.dbInfo[i].site
+								});
+								$scope.dbInfo.splice(i, 1);
+							}
+						}
+					}
+				}
+				else
+					if($scope.withSite % 2 == 0) {
+					for(var i = 0; i < $scope.splicedWithSite.length; i++) {
+						$scope.dbInfo.push({
+							'name':$scope.splicedWithSite[i].name, 
+							'pryce_index':$scope.splicedWithSite[i].pryce_index,
+							'rating':$scope.splicedWithSite[i].rating, 
+							'open_time':$scope.splicedWithSite[i].open_time,
+							'close_time':$scope.splicedWithSite[i].close_time, 
+							'adress':$scope.splicedWithSite[i].adress,
+							'metro': $scope.splicedWithSite[i].metro,
+							'phone':$scope.splicedWithSite[i].phone, 
+							'site':$scope.splicedWithSite[i].site
+						});
+					}
+					$scope.splicedWithSite = [];
+				}
 				break;
-
 		}
 	}
 });
