@@ -71,111 +71,74 @@
 			</center>
 		</div>
 		<div ng-controller="clubCtrl">
-			<form>
-				<div class="row well" style="margin-top: 70px;">
-					<ul class="list-inline">
-						<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-							<div class="material-switch">
-								<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1)"/>
-								<label for="switchOptionPrimary1" class="label-primary"></label>
-								Поближе к метро
-							</div>
-						</li>
-						<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-							<div class="material-switch">
-								<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2)"/>
-								<label for="switchOptionPrimary2" class="label-primary"></label>
-								Подешевле
-							</div>
-						</li>
-						<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-							<div class="material-switch">
-								<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3)"/>
-								<label for="switchOptionPrimary3" class="label-primary"></label>
-								Подороже
-							</div>
-						</li>
-						<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-							<div class="material-switch">
-								<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4)"/>
-								<label for="switchOptionPrimary4" class="label-primary"></label>
-								Есть сайт
-							</div>
-						</li>
-					</ul>
-				</div>
-			</form>
-			<div class="col-md-12 table-responsive">
-				<table class="table table-condensed table-striped" ts-wrapper>
-					<thead>
-						<tr>
-							<th ts-criteria="name|lowercase" ts-default>Название</th>
-							<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
-							<th ts-criteria="rating|parseInt">Рейтинг</th>
-							<th ts-criteria="open_time|parseInt">Время открытия</th>
-							<th ts-criteria="close_time|parseInt">Время закрытия</th>
-							<th ts-criteria="adress|lowercase" ts-default>Адрес</th>
-							<th ts-criteria="metro|lowercase" ts-default>Ближайшее метро</th>
-							<th ts-criteria="phone|lowercase" ts-default>Номер телефона</th>
-							<th ts-criteria="site|lowercase" ts-default>Веб-сайт</th>
-						</tr>
-					</thead>
-					<tbody class="table-bordered">
-						<tr ng-repeat=" data in dbInfo track by data.name" ts-repeat ts-hide-no-data>
-							<td>{{data.name}}</td>
-							<td>{{data.pryce_index}}</td>
-							<td>{{data.rating}}</td>
-							<td>{{data.open_time}}</td>
-							<td>{{data.close_time}}</td>
-							<td>{{data.adress}}</td>
-							<td>{{data.metro}}</td>
-							<td>{{data.phone}}</td>
-							<td>{{data.site}}</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
-			<!--//Верхнее меню в строку//-->
-			<!--
-				<ul class="list-inline">
-					<li class="col-md-3">
-						<div class="checkbox-inline"><input type="checkbox" ng-checked="" value="">Поближе к метро</div>
-					</li>
-					<li class="col-md-3">
-						<div class="checkbox-inline"><input type="checkbox" ng-checked="" value="">Поменьше цена</div>
-					</li>
-					<li class="col-md-3">
-						<div class="checkbox-inline"><input type="checkbox" ng-checked="" value="">Побольше цена</div>
-					</li>
-					<li class="col-md-3">
-						<div class="checkbox-inline"><input type="checkbox" ng-checked="" value="">Подольше работает</div>
-					</li>
-				</ul>
-			-->
-			<!--//Верхнее меню в виде блока слева//-->
-			<!--
-			<div class="col-md-3 well">
+			<dir class="col-md-12">
 				<form>
-					<div class="checkbox form-control">
-						<label><input type="checkbox" value="">Поближе к метро</label>
+					<div class="row well" style="margin-top: 70px;">
+						<ul class="list-inline">
+							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+								<div class="material-switch">
+									<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1)"/>
+									<label for="switchOptionPrimary1" class="label-primary"></label>
+									Поближе к метро
+								</div>
+							</li>
+							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+								<div class="material-switch">
+									<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2)"/>
+									<label for="switchOptionPrimary2" class="label-primary"></label>
+									Подешевле
+								</div>
+							</li>
+							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+								<div class="material-switch">
+									<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3)"/>
+									<label for="switchOptionPrimary3" class="label-primary"></label>
+									Подороже
+								</div>
+							</li>
+							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+								<div class="material-switch">
+									<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4)"/>
+									<label for="switchOptionPrimary4" class="label-primary"></label>
+									Есть сайт
+								</div>
+							</li>
+						</ul>
 					</div>
-					<div class="checkbox form-control">
-						<label><input type="checkbox" value="">Поменьше цена</label>
-					</div>
-					<div class="checkbox form-control">
-						<label><input type="checkbox" value="">Побольше цена</label>
-					</div>
-					<div class="checkbox form-control">
-						<label><input type="checkbox" value="">Подольше работает</label>
-					</div>
-					<button style="float:right;" class="btn btn-primary">Подобрать</button>
 				</form>
-			</div>
-			<div class="col-md-7">
-			</div>
-			<div class="col-md-2"></div>
-			-->
+				<div class="col-md-12 table-responsive">
+					<table class="table table-condensed table-striped" ts-wrapper>
+						<thead>
+							<tr>
+								<th ts-criteria="name|lowercase" ts-default>Название</th>
+								<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
+								<th ts-criteria="rating|parseInt">Рейтинг</th>
+								<th ts-criteria="open_time|parseInt">Время открытия</th>
+								<th ts-criteria="close_time|parseInt">Время закрытия</th>
+								<th ts-criteria="adress|lowercase" ts-default>Адрес</th>
+								<th ts-criteria="metro|lowercase" ts-default>Ближайшее метро</th>
+								<th ts-criteria="phone|lowercase" ts-default>Номер телефона</th>
+								<th ts-criteria="site|lowercase" ts-default>Веб-сайт</th>
+							</tr>
+						</thead>
+						<tbody class="table-bordered">
+							<tr ng-repeat=" data in dbInfo track by data.name" ts-repeat ts-hide-no-data>
+								<td>{{data.name}}</td>
+								<td>{{data.pryce_index}}</td>
+								<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
+								<td>{{data.open_time}}</td>
+								<td>{{data.close_time}}</td>
+								<td>{{data.adress}}</td>
+								<td><div ng-show="data.metro != '-' ">{{data.metro}}</div></td>
+								<td><div ng-show="data.phone != '-' ">{{data.phone}}</div></td>
+								<td><a ng-show="data.site != '-' " ng-href="http://{{data.site}}">{{data.site}}</a></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</dir>
+			<dir class="col-md-12"></dir>
+		</div>
 	</div>
 </body>
 </html>
