@@ -22,6 +22,84 @@
 	<script type="text/javascript" src="../../addons/angular.js"></script>
 	<script type="text/javascript" src="../../script.js"></script>
 	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<script type="text/javascript">
+		var customIcons = {
+			club: {
+				icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'
+			}
+		};
+		
+		var city = new google.maps.LatLng(48.379433, 31.16558); //начальная позиция на карте
+		
+		/*Применяем функцию для того, что бы задать необходимое стартовое положение на карте по координатам из БД
+		В данном контексте программы в данной функции пока нет необходимости, так как веб-приложение испоьзуется
+		только на территории Харькова:
+
+		function newPosition() {
+			downloadUrl("getCity.php", function(data) { //запрашиваем данные из БД
+				var xmlCity = data.responseXML; //обрабатываем их, получая необходимые широту и долготу
+				var cityMarkers = xmlCity.documentElement.getElementsByTagName("marker");
+				var latCity = parseFloat(cityMarkers[0].getAttribute("lat"));
+				var longCity = parseFloat(cityMarkers[0].getAttribute("lng"));
+				var cityName = cityMarkers[0].getAttribute("name");
+				city = new google.maps.LatLng(latCity, longCity); //изменяем значение начальной позиции на карте
+				addMarkers(city);
+			}, false); //указание, что запрос должен быть синхронным
+		}*/
+
+		function ShowMap(clubName) {
+			var map = new google.maps.Map(document.getElementById("map"), {
+				center: city,
+				zoom: 5,
+				mapTypeId: 'roadmap'
+			});
+			var infoWindow = new google.maps.InfoWindow;
+			downloadUrl("getClubLocation.php", function(data) {
+				var xml = data.responseXML;
+				var markers = xml.documentElement.getElementsByTagName("marker");
+				for (var i = 0; i < markers.length; i++) {
+					var name = markers[i].getAttribute("name");
+					var adress = markers[i].getAttribute("adress");
+					var site = markers[i].getAttribute("site");
+					var point = new google.maps.LatLng(
+						parseFloat(markers[i].getAttribute("lat")),
+						parseFloat(markers[i].getAttribute("lng"))
+					);
+					var html = "<b>" + name + "</b> <br/>" + adress + "<br/><a href=' " + site + " '></a>" ;
+					var icon = customIcons[0] || {};
+					var marker = new google.maps.Marker({
+						map: map,
+						position: point,
+						icon: icon.icon
+					});
+					bindInfoWindow(marker, map, infoWindow, html);
+				}
+			});
+		}
+
+		function bindInfoWindow(marker, map, infoWindow, html) {
+			google.maps.event.addListener(marker, 'click', function() {
+				infoWindow.setContent(html);
+				infoWindow.open(map, marker);
+			});
+		}
+
+		function downloadUrl(url, callback, async) { //AJAX-функция для получения данный из БД
+			async = async || true; //задание значения по умолчанию 
+			var request = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+			request.onreadystatechange = function() {
+				if (request.readyState == 4) {
+					request.onreadystatechange = doNothing;
+					callback(request, request.status);
+				}
+			};
+			request.open('GET', url, async); 
+			request.send(null);
+		}
+
+		function doNothing() {}
+	</script>
 </head>
 <body>
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
@@ -71,7 +149,7 @@
 			</center>
 		</div>
 		<div ng-controller="clubCtrl">
-			<dir class="col-md-12">
+			<div class="col-md-12">
 				<form>
 					<div class="row well" style="margin-top: 70px;">
 						<ul class="list-inline">
@@ -136,8 +214,10 @@
 						</tbody>
 					</table>
 				</div>
-			</dir>
-			<dir class="col-md-12"></dir>
+			</div>	
+			<div class="col-md-12">
+				<div id="map" style="width: 100%; height: 600px" onload="ShowMap(1)"></div>
+			</div>
 		</div>
 	</div>
 </body>
