@@ -31,42 +31,26 @@
 		};
 		
 		var city = new google.maps.LatLng(48.379433, 31.16558); //начальная позиция на карте
-		
-		/*Применяем функцию для того, что бы задать необходимое стартовое положение на карте по координатам из БД
-		В данном контексте программы в данной функции пока нет необходимости, так как веб-приложение испоьзуется
-		только на территории Харькова:
 
-		function newPosition() {
-			downloadUrl("getCity.php", function(data) { //запрашиваем данные из БД
-				var xmlCity = data.responseXML; //обрабатываем их, получая необходимые широту и долготу
-				var cityMarkers = xmlCity.documentElement.getElementsByTagName("marker");
-				var latCity = parseFloat(cityMarkers[0].getAttribute("lat"));
-				var longCity = parseFloat(cityMarkers[0].getAttribute("lng"));
-				var cityName = cityMarkers[0].getAttribute("name");
-				city = new google.maps.LatLng(latCity, longCity); //изменяем значение начальной позиции на карте
-				addMarkers(city);
-			}, false); //указание, что запрос должен быть синхронным
-		}*/
-
-		function ShowMap(clubName) {
+		function ShowMap() {
 			var map = new google.maps.Map(document.getElementById("map"), {
 				center: city,
 				zoom: 5,
 				mapTypeId: 'roadmap'
 			});
 			var infoWindow = new google.maps.InfoWindow;
-			downloadUrl("getClubLocation.php", function(data) {
+			downloadUrl("../../../php_scripts/functionality/getClubLocation.php", function(data) {
 				var xml = data.responseXML;
 				var markers = xml.documentElement.getElementsByTagName("marker");
 				for (var i = 0; i < markers.length; i++) {
 					var name = markers[i].getAttribute("name");
 					var adress = markers[i].getAttribute("adress");
-					var site = markers[i].getAttribute("site");
+					var phone = markers[i].getAttribute("phone");
 					var point = new google.maps.LatLng(
 						parseFloat(markers[i].getAttribute("lat")),
 						parseFloat(markers[i].getAttribute("lng"))
 					);
-					var html = "<b>" + name + "</b> <br/>" + adress + "<br/><a href=' " + site + " '></a>" ;
+					var html = "<b>" + name + "</b> <br/>" + adress + "<br/>" + phone ;
 					var icon = customIcons[0] || {};
 					var marker = new google.maps.Marker({
 						map: map,
@@ -101,7 +85,7 @@
 		function doNothing() {}
 	</script>
 </head>
-<body>
+<body onload="ShowMap()">
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<nav role="navigation" class="navbar navbar-default">	
 		<div class="navbar-header">
@@ -216,7 +200,7 @@
 				</div>
 			</div>	
 			<div class="col-md-12">
-				<div id="map" style="width: 100%; height: 600px" onload="ShowMap(1)"></div>
+				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
 		</div>
 	</div>
