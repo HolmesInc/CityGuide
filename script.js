@@ -68,11 +68,87 @@ regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 var clubsApp = angular.module('clubsApp', ['tableSort']);
 
 clubsApp.controller('clubCtrl', function($scope, $http){
+////////////////////////// Карта
+
+	var customIcons = {
+			club: {
+				icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'
+			}
+		};
+	var map; //переменная для оперирования картой
+	var markers = []; //массив маркеров
+	var city = new google.maps.LatLng(49.9935, 36.230383); //начальная позиция на карте
+	var zoom = 11;
+
+	$scope.ShowMap = function() {
+		map = new google.maps.Map(document.getElementById("map"), {
+				center: city,
+				zoom: zoom,
+				mapTypeId: 'roadmap'
+			});
+		var infoWindow = new google.maps.InfoWindow;
+		downloadUrl("../../../php_scripts/functionality/getClubLocation.php", function(data) {
+			var xml = data.responseXML;
+			markers = xml.documentElement.getElementsByTagName("marker");
+			for (var i = 0; i < markers.length; i++) {
+				var name = markers[i].getAttribute("name");
+				var adress = markers[i].getAttribute("adress");
+				var phone = markers[i].getAttribute("phone");
+				var point = new google.maps.LatLng(
+					parseFloat(markers[i].getAttribute("lat")),
+					parseFloat(markers[i].getAttribute("lng"))
+				);
+				var html = "<b>" + name + "</b> <br/>" + adress + "<br/>" + phone ;
+				var icon = customIcons[0] || {};
+				var marker = new google.maps.Marker({
+					map: map,
+					position: point,
+					icon: icon.icon
+				});
+				bindInfoWindow(marker, map, infoWindow, html);
+			}
+		});
+	}
+
+	function bindInfoWindow(marker, map, infoWindow, html) {
+		google.maps.event.addListener(marker, 'click', function() {
+			infoWindow.setContent(html);
+			infoWindow.open(map, marker);
+		});
+	}
+
+	function downloadUrl(url, callback, async) { //AJAX-функция для получения данный из БД
+		async = async || true; //задание значения по умолчанию 
+		var request = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
+		request.onreadystatechange = function() {
+			if (request.readyState == 4) {
+				request.onreadystatechange = doNothing;
+				callback(request, request.status);
+			}
+		};
+		request.open('GET', url, async); 
+		request.send(null);
+	}
+
+	function doNothing() {}	
+
+	$scope.NewZoom = function (id) {
+		zoom = 17;
+		var point = new google.maps.LatLng(
+			parseFloat(markers[id].getAttribute("lat")),
+			parseFloat(markers[id].getAttribute("lng"))
+		);
+		map.setZoom(zoom);
+		map.setCenter(point);
+	}
+////////////////////////// Карта
+////////////////////////// Работа с даными из БД
 	$scope.nearMetro = 0;
 	$scope.lowPrice = 0;
 	$scope.highPrice = 0;
 	$scope.withSite = 0;
-	$http.get('../../php_scripts/get_clubs_data.php').then(function (response) {
+
+	$http.get('../../php_scripts/get_clubs_data.php').then(function (response) { //запрос на получение данных о заведении из БД
 				$scope.dbInfo = response.data;
 			});
 

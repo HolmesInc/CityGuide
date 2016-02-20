@@ -24,24 +24,37 @@
 	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script>
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 	<script type="text/javascript">
-		var customIcons = {
+	/*	var customIcons = {
 			club: {
 				icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'
 			}
 		};
-		
-		var city = new google.maps.LatLng(48.379433, 31.16558); //начальная позиция на карте
+
+		function NewZoom(index) {
+			alert(index);
+			zoom = 15;
+			map.setZoom(zoom);
+			var val = new google.maps.LatLng(48.9935, 36.230383);
+			map.setCenter(val)
+		}
+		/*ng-click="NewZoom($index + 1)"*/
+	/*	
+		var map; //переменная для оперирования картой
+		var markers = []; //массив маркеров
+		var city = new google.maps.LatLng(49.9935, 36.230383); //начальная позиция на карте
+
+		var zoom = 11;
 
 		function ShowMap() {
-			var map = new google.maps.Map(document.getElementById("map"), {
+			map = new google.maps.Map(document.getElementById("map"), {
 				center: city,
-				zoom: 5,
+				zoom: zoom,
 				mapTypeId: 'roadmap'
 			});
 			var infoWindow = new google.maps.InfoWindow;
 			downloadUrl("../../../php_scripts/functionality/getClubLocation.php", function(data) {
 				var xml = data.responseXML;
-				var markers = xml.documentElement.getElementsByTagName("marker");
+				markers = xml.documentElement.getElementsByTagName("marker");
 				for (var i = 0; i < markers.length; i++) {
 					var name = markers[i].getAttribute("name");
 					var adress = markers[i].getAttribute("adress");
@@ -83,9 +96,11 @@
 		}
 
 		function doNothing() {}
+	*/
 	</script>
 </head>
-<body onload="ShowMap()">
+<body ng-controller="clubCtrl" ng-init="ShowMap()">
+
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<nav role="navigation" class="navbar navbar-default">	
 		<div class="navbar-header">
@@ -132,7 +147,7 @@
 				</h4>
 			</center>
 		</div>
-		<div ng-controller="clubCtrl">
+		<div>
 			<div class="col-md-12">
 				<form>
 					<div class="row well" style="margin-top: 70px;">
@@ -190,7 +205,7 @@
 								<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
 								<td>{{data.open_time}}</td>
 								<td>{{data.close_time}}</td>
-								<td>{{data.adress}}</td>
+								<td><a href = "#map" ng-click="NewZoom($index)">{{data.adress}}<a></td>
 								<td><div ng-show="data.metro != '-' ">{{data.metro}}</div></td>
 								<td><div ng-show="data.phone != '-' ">{{data.phone}}</div></td>
 								<td><a ng-show="data.site != '-' " ng-href="http://{{data.site}}">{{data.site}}</a></td>
@@ -202,6 +217,7 @@
 			<div class="col-md-12">
 				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
+			<!--<button onclick="NewZoom()">Zoom</button>-->
 		</div>
 	</div>
 </body>
