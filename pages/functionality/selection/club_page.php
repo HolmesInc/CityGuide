@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html ng-app="clubsApp">
+<html ng-app="selectionApp">
 <head>
 	<title>ARROW-Клубы</title>
 	<link rel="shortcut icon" href="../../img/arrow.ico" type="image/x-icon">
@@ -21,90 +21,15 @@
 	
 	<script type="text/javascript" src="../../addons/angular.js"></script>
 	<script type="text/javascript" src="../../script.js"></script>
-	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script>
-	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
-	<script type="text/javascript">
-	/*	var customIcons = {
-			club: {
-				icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'
-			}
-		};
-
-		function NewZoom(index) {
-			alert(index);
-			zoom = 15;
-			map.setZoom(zoom);
-			var val = new google.maps.LatLng(48.9935, 36.230383);
-			map.setCenter(val)
-		}
-		/*ng-click="NewZoom($index + 1)"*/
-	/*	
-		var map; //переменная для оперирования картой
-		var markers = []; //массив маркеров
-		var city = new google.maps.LatLng(49.9935, 36.230383); //начальная позиция на карте
-
-		var zoom = 11;
-
-		function ShowMap() {
-			map = new google.maps.Map(document.getElementById("map"), {
-				center: city,
-				zoom: zoom,
-				mapTypeId: 'roadmap'
-			});
-			var infoWindow = new google.maps.InfoWindow;
-			downloadUrl("../../../php_scripts/functionality/getClubLocation.php", function(data) {
-				var xml = data.responseXML;
-				markers = xml.documentElement.getElementsByTagName("marker");
-				for (var i = 0; i < markers.length; i++) {
-					var name = markers[i].getAttribute("name");
-					var adress = markers[i].getAttribute("adress");
-					var phone = markers[i].getAttribute("phone");
-					var point = new google.maps.LatLng(
-						parseFloat(markers[i].getAttribute("lat")),
-						parseFloat(markers[i].getAttribute("lng"))
-					);
-					var html = "<b>" + name + "</b> <br/>" + adress + "<br/>" + phone ;
-					var icon = customIcons[0] || {};
-					var marker = new google.maps.Marker({
-						map: map,
-						position: point,
-						icon: icon.icon
-					});
-					bindInfoWindow(marker, map, infoWindow, html);
-				}
-			});
-		}
-
-		function bindInfoWindow(marker, map, infoWindow, html) {
-			google.maps.event.addListener(marker, 'click', function() {
-				infoWindow.setContent(html);
-				infoWindow.open(map, marker);
-			});
-		}
-
-		function downloadUrl(url, callback, async) { //AJAX-функция для получения данный из БД
-			async = async || true; //задание значения по умолчанию 
-			var request = window.ActiveXObject ? new ActiveXObject('Microsoft.XMLHTTP') : new XMLHttpRequest;
-			request.onreadystatechange = function() {
-				if (request.readyState == 4) {
-					request.onreadystatechange = doNothing;
-					callback(request, request.status);
-				}
-			};
-			request.open('GET', url, async); 
-			request.send(null);
-		}
-
-		function doNothing() {}
-	*/
-	</script>
+	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script><!--
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>-->
 </head>
-<body ng-controller="clubCtrl" ng-init="ShowMap()">
+<body ng-controller="selectionCtrl" > <!--ng-init="ShowMap()"-->
 
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<nav role="navigation" class="navbar navbar-default">	
 		<div class="navbar-header">
-			<div class="navbar-brand"><a href="../../index.php">ARROW</a></div>
+			<div class="navbar-brand"><a href="../../index.php">< ARROW</a></div>
 		</div>
 		
 		<div class="navbar-collapse">
@@ -154,28 +79,28 @@
 						<ul class="list-inline">
 							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
 								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1)"/>
+									<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1,1)"/>
 									<label for="switchOptionPrimary1" class="label-primary"></label>
 									Поближе к метро
 								</div>
 							</li>
 							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
 								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2)"/>
+									<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2,1)"/>
 									<label for="switchOptionPrimary2" class="label-primary"></label>
 									Подешевле
 								</div>
 							</li>
 							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
 								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3)"/>
+									<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3,1)"/>
 									<label for="switchOptionPrimary3" class="label-primary"></label>
 									Подороже
 								</div>
 							</li>
 							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
 								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4)"/>
+									<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4,1)"/>
 									<label for="switchOptionPrimary4" class="label-primary"></label>
 									Есть сайт
 								</div>
@@ -199,7 +124,7 @@
 							</tr>
 						</thead>
 						<tbody class="table-bordered">
-							<tr ng-repeat=" data in dbInfo track by data.name" ts-repeat ts-hide-no-data>
+							<tr ng-repeat=" data in dbClubInfo track by data.name" ts-repeat ts-hide-no-data>
 								<td>{{data.name}}</td>
 								<td>{{data.pryce_index}}</td>
 								<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
