@@ -3,8 +3,8 @@
 	$checkCookie = CheckCookies();
 	if ($checkCookie === 0){
 		header('Refresh: 3; URL=http://arrow.ru/login.php');
-		echo "<center><h1>Рљ СЃРѕР¶Р°Р»РµРЅРёСЋ, Р’С‹ РЅРµ Р°РІС‚РѕСЂРёР·РѕРІР°РЅС‹:(</h1></center>";
-		echo "<center><h3>РђРІС‚РѕСЂРёР·СѓР№С‚РµСЃСЊ, С‡С‚Рѕ Р±С‹ РІРёРґРµС‚СЊ СЃРѕРґРµСЂР¶Р°РЅРёРµ СЌС‚РѕР№ СЃС‚СЂР°РЅРёС†С‹</h3></center>";
+		echo "<center><h1>К сожалению, Вы не авторизованы:(</h1></center>";
+		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
 		include "../../pages/functionality/selection/sushi_page.php";

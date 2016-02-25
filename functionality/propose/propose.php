@@ -7,6 +7,6 @@
 		echo "<center><h3>Авторизуйтесь, что бы видеть содержание этой страницы</h3></center>";
 	}
 	else{
-		include "../../pages/functionality/notes/toDo_page.php";
+		include "../../pages/functionality/propose/propose_page.php";
 	}
 ?>

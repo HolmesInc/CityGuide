@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html ng-app="indexApp">
 <head>
-	<title>ARROW</title>
+	<title>ARROW Главная</title>
 	<link rel="shortcut icon" href="../img/arrow.ico" type="image/x-icon">
 	<script type="text/javascript" src="../addons/angular.js"></script>
 	<script type="text/javascript" src="../script.js"></script>
@@ -32,8 +32,9 @@
 
 		<div class="navbar-collapse">
 			<ul class="nav navbar-nav">
-				<li class="active"><a href="../index.php">Чертоги</a></li>
-				<li><a href="../functionality/votes/rating.php">Голосуем</a></li>
+				<li><a href="../index.php">Хочу в</a></li>
+				<li><a href="../functionality/votes/rating.php">Голосую</a></li>
+				<li><a href="../functionality/propose/propose.php">Предлагаю</a></li>
 				<li><a href="../functionality/notes/toDo.php">Дела</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
