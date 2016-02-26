@@ -20,10 +20,13 @@
 	</style>
 	<script type="text/javascript" src="../../addons/angular.js"></script>
 	<script type="text/javascript" src="../../script.js"></script>
-	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script><!--
-	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>-->
+	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script>
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	<!--
+	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
+	-->
 </head>
-<body ng-controller="selectionCtrl" > <!--ng-init="ShowMap()"-->
+<body ng-controller="selectionCtrl" ng-init="ShowMap()"> <!--ng-init="ShowMap()"-->
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<?php 
 		include "../../functionality/menu.php";
@@ -126,6 +129,7 @@
 			<div class="col-md-12">
 				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
+			<button onclick="NewZoom()">Zoom</button>
 			<!--<button onclick="NewZoom()">Zoom</button>-->
 		</div>	
 	</div>

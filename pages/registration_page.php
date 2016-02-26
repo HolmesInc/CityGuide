@@ -6,10 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
-		.regForm input.ng-invalid.ng-dirty {
+		.regForm input.ng-invalid .ng-dirty {
 			background-color: #FA787E;
 		}
-		.regForm input.ng-valid.ng-dirty {
+		.regForm input.ng-valid .ng-dirty {
 			background-color: #78FA89;
 		}
 		.navbar-brand a {

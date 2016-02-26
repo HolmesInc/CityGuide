@@ -1,6 +1,6 @@
-﻿/////////////////////////INDEX/////////////////////////////////
+﻿///////////////////////INDEX//////////////////////////////////////////////////////////////////////////////////////////////
 var indexApp = angular.module('indexApp', []);
-/////////////////////////LOGIN/////////////////////////////////
+///////////////////////LOGIN//////////////////////////////////////////////////////////////////////////////////////////////
 var loginFormApp = angular.module('loginFormApp', []);
 
 loginFormApp.controller('loginCtrl',function($scope, $http){
@@ -8,30 +8,9 @@ loginFormApp.controller('loginCtrl',function($scope, $http){
 	$scope.isUnchanged = function(user) {
 		return angular.equals(user, $scope.master);
 	};
-	/*вспомагательные скрипты, на данный момент не используются
-	//создаём запрос к php-скрпту на получение данных из БД
-	$http.get('get_login_data.php').success(function(data) 
-   	{
-        //заносим в scope полученные данные
-    	$scope.usersData = data;
-	});
-	*/
-
-	/*
-	$scope.update = function(user) 
-	{
-		$scope.master= angular.copy(user);
-	};
-			
-	$scope.reset = function() 
-	{
-		$scope.user = angular.copy($scope.master);
-	};*/
-	
-		//$scope.reset();
-						
+	//$scope.reset();				
 });
-//////////////////////REGISTRATION//////////////////////////////
+///////////////////////REGISTRATION///////////////////////////////////////////////////////////////////////////////////////
 var regFormApp = angular.module('regFormApp', ['vcRecaptcha']);
 
 regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
@@ -64,12 +43,11 @@ regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 		});
 	}
 });
-////////////////////SELECTION/////////////////////////////
+///////////////////////SELECTION//////////////////////////////////////////////////////////////////////////////////////////
 var selectionApp = angular.module('selectionApp', ['tableSort']);
 
 selectionApp.controller('selectionCtrl', function($scope, $http){
 ////////////////////////// Карта
-/*
 	var customIcons = {
 			club: {
 				icon: 'http://labs.google.com/ridefinder/images/mm_20_red.png'
@@ -141,7 +119,6 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 		map.setZoom(zoom);
 		map.setCenter(point);
 	}
-*/
 ////////////////////////// Карта
 ////////////////////////// Работа с даными из БД
 	$scope.nearMetro = 0;
@@ -311,5 +288,114 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 					}
 				break;
 		}
+	}
+});
+///////////////////////PROPOSE////////////////////////////////////////////////////////////////////////////////////////////
+var proposeApp = angular.module('proposeApp', []);
+
+proposeApp.directive('ngTextValidation', function(){
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, ctrl) {
+			function textValidation(value) {
+				var regular = /[A-ZА-Яa-zа-я]/;
+				if ( regular.test(value) == true ){
+					ctrl.$setValidity('text', true);
+				}
+				else {
+					ctrl.$setValidity('text', false);
+				}
+				return value;
+			}
+			ctrl.$parsers.push(textValidation);
+		}
+	}
+});
+
+proposeApp.directive('ngPriceValidation', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, ctrl) {
+			function priceValidation(value) {
+				if ( (value >= 1) && (value <= 5) && ( value != '[^0-9]' )) {
+					ctrl.$setValidity('price', true);
+				} 
+				else {
+					ctrl.$setValidity('price', false);
+				}
+				return value;
+			}
+			ctrl.$parsers.push(priceValidation);
+		}
+	};
+});
+
+proposeApp.directive('ngTimeValidation', function() {
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, ctrl) {
+			function timeValidation(value) {
+				var regular = /^\d{1,2}:\d{2}([ap]m)?$/;
+				if ( regular.test(value) == true ) {
+					ctrl.$setValidity('time', true);
+				}
+				else {
+					ctrl.$setValidity('time', false);	
+				}
+				return value;
+			}
+			ctrl.$parsers.push(timeValidation);
+		}
+	}
+});
+
+proposeApp.directive('ngPhoneValidation', function(){
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, ctrl) {
+			function phoneValidation(value) {
+				var regular = /\(\d{3}\)\-\d{3}\-\d{2}\-\d{2}/;
+				if ( regular.test(value) == true ){
+					ctrl.$setValidity('phone', true);
+				}
+				else {
+					ctrl.$setValidity('phone', false);
+				}
+				return value;
+			}
+			ctrl.$parsers.push(phoneValidation);
+		}
+	}
+});
+
+proposeApp.directive('ngSiteValidation', function(){
+	return {
+		require: 'ngModel',
+		link: function(scope, element, attr, ctrl) {
+			function phoneValidation(value) {
+				var regular = /([w])([w])([w])\.[a-zA-Z0-9]/;
+				if ( regular.test(value) == true ){
+					ctrl.$setValidity('site', true);
+				}
+				else {
+					ctrl.$setValidity('site', false);
+				}
+				return value;
+			}
+			ctrl.$parsers.push(phoneValidation);
+		}
+	}
+});
+
+proposeApp.controller('proposeCtrl', function($scope, $http) {
+//$scope.proposeForm.closeTime.$setValidity('price', false);
+	$scope.ProposePlace = function() {
+		alert($scope.name);
+		alert($scope.price);
+		alert($scope.openTime);
+		alert($scope.metro);
+		alert($scope.phone);
+		alert($scope.site);
+
 	}
 });
