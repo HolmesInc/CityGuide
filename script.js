@@ -312,24 +312,6 @@ proposeApp.directive('ngTextValidation', function(){
 	}
 });
 
-proposeApp.directive('ngPriceValidation', function() {
-	return {
-		require: 'ngModel',
-		link: function(scope, element, attr, ctrl) {
-			function priceValidation(value) {
-				if ( (value >= 1) && (value <= 5) && ( value != '[^0-9]' )) {
-					ctrl.$setValidity('price', true);
-				} 
-				else {
-					ctrl.$setValidity('price', false);
-				}
-				return value;
-			}
-			ctrl.$parsers.push(priceValidation);
-		}
-	};
-});
-
 proposeApp.directive('ngTimeValidation', function() {
 	return {
 		require: 'ngModel',
@@ -373,7 +355,7 @@ proposeApp.directive('ngSiteValidation', function(){
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function phoneValidation(value) {
-				var regular = /([w])([w])([w])\.[a-zA-Z0-9]/;
+				var regular = /^(http(s?):\/\/)?(www\.)+[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
 				if ( regular.test(value) == true ){
 					ctrl.$setValidity('site', true);
 				}
@@ -388,14 +370,36 @@ proposeApp.directive('ngSiteValidation', function(){
 });
 
 proposeApp.controller('proposeCtrl', function($scope, $http) {
-//$scope.proposeForm.closeTime.$setValidity('price', false);
+	$scope.category = ['Club', 'Kino', 'Pizza', 'Sushi'];
+	$scope.price = ['1', '2', '3', '4', '5'];
 	$scope.ProposePlace = function() {
-		alert($scope.name);
-		alert($scope.price);
-		alert($scope.openTime);
-		alert($scope.metro);
-		alert($scope.phone);
-		alert($scope.site);
-
-	}
+		var checkPlace = false;
+		$http.get('../../php_scripts/functionality/propose/check_new_place.php').then(function(data) {
+			$scope.dbInfo = data;
+			for(var i = 0; i < $scope.dbInfo.data.length; i++) {
+				if( $scope.dbInfo.data[i].name == $scope.name ) {
+					checkPlace = true;
+				}
+			}
+			if (checkPlace == true) {
+				alert("Мы уже знакомы с данным заведением, спасибо=)");
+			}
+			else {
+				$http.post('../../php_scripts/functionality/propose/add_new_place.php', {
+					'name': $scope.name,
+					'placeCategory': $scope.placeCategory,
+					'priceIndex': $scope.priceIndex,
+					'openTime': $scope.openTime,
+					'closeTime': $scope.closeTime,
+					'address': $scope.address,
+					'metro': $scope.metro,
+					'phone': $scope.phone,
+					'site': $scope.site,
+				}).success(function(){
+					alert("Спасибо за новое место!");
+					window.location.replace("http://arrow.ru/");
+				});		
+			}
+		});
+	};
 });

@@ -61,15 +61,27 @@
 				<form class="form-horizontal proposeForm" name="proposeForm" role="form" novalidate>	
 					<div class="form-group">
 
-						<label for="shopName" class="col-sm-3 control-label">Название*</label>
+						<label for="placeName" class="col-sm-3 control-label">Название*</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="shopName" name="placeName" minlength="3" maxlength="30" placeholder="Название заведения" ng-model="name" required ng-text-validation /> 
+							<input type="text" class="form-control" id="placeName" name="placeName" minlength="3" maxlength="30" placeholder="Название заведения" ng-model="name" required ng-text-validation /> 
 						</div>
 						
+						<label for="placeCategory" class="col-sm-3 control-label">Категрия*</label>
+						<div class="col-sm-9">
+							<select class="form-control" name="placeCategory" ng-model="placeCategory" required>
+								<option style="display:none;" value="">Выберите категорию</option>
+								<option ng-repeat="categorys in category">{{categorys}} </option>
+							</select>
+						</div>
+
 						<label for="priceIndex" class="col-sm-3 control-label">Индекс цены*</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="priceIndex" name="priceIndex" maxlength="1" placeholder="1-5" ng-model="price" required ng-price-validation />
+							<select class="form-control" name="priceIndex" ng-model="priceIndex" required>
+								<option style="display:none;" value="">Выберите ценовой индекс</option>
+								<option ng-repeat="prices in price">{{prices}}</option>
+							</select>
 						</div>
+
 						<label for="openTime" class="col-sm-3 control-label">Открывается</label>
 						<div class="col-sm-9">
 							<input type="text" class="form-control" id="openTime" name="openTime" maxlength="5" placeholder="**:**" ng-model="openTime" ng-time-validation />
@@ -85,9 +97,9 @@
 							<input type="text" class="form-control" id="address" name="address" minlength="5" placeholder="ул.**, **" ng-model="address" required ng-text-validation />
 						</div>
 
-						<label for="metro" class="col-sm-3 control-label">Метро рядом*</label>
+						<label for="metro" class="col-sm-3 control-label">Метро рядом</label>
 						<div class="col-sm-9">
-							<input type="text" class="form-control" id="metro" name="metro" minlength="5" placeholder="Название станции" ng-model="metro" required />
+							<input type="text" class="form-control" id="metro" name="metro" minlength="5" placeholder="Название станции" ng-model="metro" />
 						</div>
 
 						<label for="phone" class="col-sm-3 control-label">Телефон</label>
