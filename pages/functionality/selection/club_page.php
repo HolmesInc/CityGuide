@@ -3,7 +3,7 @@
 <head>
 	<title>ARROW Клубы</title>
 	<link rel="shortcut icon" href="../../img/arrow.ico" type="image/x-icon">
-	<link rel="stylesheet" type="text/css" href="../../style.css">
+	<link rel="stylesheet" type="text/css" href="../../../style.css">
 	<link rel="stylesheet" type="text/css" href="../../addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
 		.navbar-brand a {
@@ -18,7 +18,6 @@
 			cursor: pointer;
 		}
 	</style>
-	
 	<script type="text/javascript" src="../../addons/angular.js"></script>
 	<script type="text/javascript" src="../../script.js"></script>
 	<script type="text/javascript" src="../../../addons/angular-tablesort.js"></script>
@@ -131,8 +130,6 @@
 			<div class="col-md-12">
 				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
-			<button onclick="NewZoom()">Zoom</button>
-			<!--<button onclick="NewZoom()">Zoom</button>-->
 		</div>
 	</div>
 </body>

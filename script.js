@@ -403,3 +403,43 @@ proposeApp.controller('proposeCtrl', function($scope, $http) {
 		});
 	};
 });
+//////////////////////VOTES///////////////////////////////////////////////////////////////////////////////////////////////
+var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge']);
+ratingApp.controller('ratingCtrl', function($scope, $http) {
+	var graphOpacity = 0.55;
+
+	$scope.placeObject = {
+		place: [
+		{
+			name: 'some 1',
+			opacity: graphOpacity,
+			value: 0,
+			text: 'some text 1'	
+		},
+		{
+			name: 'some 2',
+			opacity: graphOpacity,
+			value: 0,
+			text: 'some text 2'	
+		},
+		{
+			name: 'some name 3',
+			opacity: graphOpacity,
+			value: 0,
+			text: 'some text 3'	
+		},
+		{
+			name: 'some name 4',
+			opacity: graphOpacity,
+			value: 0,
+			text: 'some text 4'
+		},
+		]
+	};
+	$http.get('../../php_scripts/functionality/votes/get_new_place_data.php').then(function(response) {
+		$scope.placeObject.place[0].value = response.data[0].index_of_validity;
+		$scope.placeObject.place[0].name = response.data[0].name;
+		$scope.placeObject.place[1].value = response.data[1].index_of_validity;
+		$scope.placeObject.place[1].name = response.data[1].name;
+	});
+});

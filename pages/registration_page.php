@@ -12,9 +12,6 @@
 		.regForm input.ng-valid .ng-dirty {
 			background-color: #78FA89;
 		}
-		.navbar-brand a {
-			text-decoration: none;
-		}
 	</style>
 	<script src="addons/angular.js"></script>
 	<script src="//www.google.com/recaptcha/api.js?render=explicit&onload=vcRecaptchaApiLoaded" async defer></script>

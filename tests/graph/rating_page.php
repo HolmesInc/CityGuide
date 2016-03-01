@@ -14,7 +14,8 @@
 	<script type="text/javascript" src="../../../addons/jquery.min.js"></script>
 	<script type="text/javascript" src="../../../addons/angular-lib/graphs/rg-min.js"></script>
 	<script type="text/javascript" src="../../../addons/angular-lib/graphs/angular-rg-lib.min.js"></script>
-	<script type="text/javascript" src="../../script.js"></script>
+	<script type="text/javascript" src="d3.min.js"></script>
+	<script type="text/javascript" src="ng-knob.js"></script>
 </head>
 <body ng-controller="ratingCtrl">
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
@@ -51,10 +52,40 @@
 		</div>
 		<div class=" row col-md-12">
 			<div class="col-md-3">
-				<raphael-gauge id="place1" config="placeObject.place[0]"></raphael-gauge>
+				<ui-knob value="value" options="options"></ui-knob>
+				<script type="text/javascript">
+				var ratingApp = angular.module('ratingApp', ['ui.knob']);
+				ratingApp.controller('ratingCtrl', function($scope, $http){
+					$scope.value = 15;
+					$scope.options = {
+					  unit: "%",
+					  readOnly: true,
+					  subText: {
+					    enabled: true,
+					    text: 'одобривших',
+					    color: 'gray',
+					    font: 'auto'
+					  },
+					  trackWidth: 40,
+					  barWidth: 25,
+					  trackColor: '#337AB7',
+					  barColor: '#ACACAC'
+					};
+					$http.get('../../php_scripts/functionality/votes/get_new_place_data.php').then(function(response) {
+						$scope.value = response.data[0].index_of_validity;
+						$scope.options.subText.text = response.data[0].name;
+						console.log($scope.options.subText.text);
+						/*$scope.placeObject.place[0].name = response.data[0].name;
+						console.log($scope.placeObject.place[0].name)
+						$scope.placeObject.place[1].value = response.data[1].index_of_validity;
+						$scope.placeObject.place[1].name = response.data[1].name;
+						console.log($scope.placeObject.place[1].name)*/
+					});
+				});
+				</script>
 			</div>
 			<div class="col-md-3">
-				<raphael-gauge id="place2" config="placeObject.place[1]"></raphael-gauge>
+				
 			</div>
 			<!--
 			<div class="col-md-3">

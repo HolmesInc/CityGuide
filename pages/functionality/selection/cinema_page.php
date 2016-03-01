@@ -129,8 +129,6 @@
 			<div class="col-md-12">
 				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
-			<button onclick="NewZoom()">Zoom</button>
-			<!--<button onclick="NewZoom()">Zoom</button>-->
 		</div>
 	</div>
 </body>
