@@ -355,8 +355,9 @@ proposeApp.directive('ngSiteValidation', function(){
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function phoneValidation(value) {
-				var regular = /^(http(s?):\/\/)?(www\.)+[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
-				if ( regular.test(value) == true ){
+				var regular1 = /^(http(s?):\/\/)[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
+				var regular2 = /^(www\.)+[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
+				if ( (regular1.test(value) == true) || (regular2.test(value) == true) ) {
 					ctrl.$setValidity('site', true);
 				}
 				else {
@@ -404,42 +405,112 @@ proposeApp.controller('proposeCtrl', function($scope, $http) {
 	};
 });
 //////////////////////VOTES///////////////////////////////////////////////////////////////////////////////////////////////
-var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge']);
+var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge','ngRoute']);
 ratingApp.controller('ratingCtrl', function($scope, $http) {
+////////////////////////// Отрисовка графиков{	
 	var graphOpacity = 0.55;
-
 	$scope.placeObject = {
 		place: [
 		{
-			name: 'some 1',
 			opacity: graphOpacity,
 			value: 0,
-			text: 'some text 1'	
+			text: 'Some place'	
 		},
 		{
-			name: 'some 2',
 			opacity: graphOpacity,
 			value: 0,
-			text: 'some text 2'	
+			text: 'Some place'	
 		},
 		{
-			name: 'some name 3',
 			opacity: graphOpacity,
 			value: 0,
-			text: 'some text 3'	
+			text: 'Some place'
 		},
 		{
-			name: 'some name 4',
 			opacity: graphOpacity,
 			value: 0,
-			text: 'some text 4'
+			text: 'Some place'
 		},
 		]
 	};
 	$http.get('../../php_scripts/functionality/votes/get_new_place_data.php').then(function(response) {
-		$scope.placeObject.place[0].value = response.data[0].index_of_validity;
-		$scope.placeObject.place[0].name = response.data[0].name;
-		$scope.placeObject.place[1].value = response.data[1].index_of_validity;
-		$scope.placeObject.place[1].name = response.data[1].name;
+		for(var i = 0; i < response.data.length; i++) {
+			$scope.placeObject.place[i].value = response.data[i].index_of_validity;
+			$scope.placeObject.place[i].name = response.data[i].name;
+		}
+		$scope.placeData = response.data;
 	});
+	//////////////////////// }Отрисовка графиков
+	//////////////////////// Отображение данных по графикам{
+	$scope.placeCSSStatus = ['inline', 'inline', 'inline', 'inline'];
+	$scope.placePathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
+	$scope.placeEtalonPathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
+	$scope.placeSelectedStatus = [false, false, false, false];
+
+	$scope.VisibleObjects = function(param) {
+		if($scope.placeSelectedStatus[param] == false) {
+			for (var i = 0; i < $scope.placeSelectedStatus.length; i++) {
+				if(i != param) {
+					$scope.placeCSSStatus[i] = 'none';
+				}
+			}
+			$scope.placeSelectedStatus[param] = true;
+			$scope.placePathes[param] = $scope.placeEtalonPathes[param];
+		} 
+		else if($scope.placeSelectedStatus[param] == true) {
+			for (var i = 0; i < $scope.placeCSSStatus.length; i++) {
+				if(i != param) {
+					$scope.placeCSSStatus[i] = 'inline';
+				}					
+			}
+			$scope.placeSelectedStatus[param] = false;
+			$scope.placePathes[param] = '#';
+		}
+	}
+
+	$scope.ShowInfo = function(param) {
+		switch (param) {
+			case 0:
+					$scope.VisibleObjects(param);
+				break;
+			case 1:
+					$scope.VisibleObjects(param);
+				break;
+			case 2:
+					$scope.VisibleObjects(param);
+				break;
+			case 3:
+					$scope.VisibleObjects(param);
+				break;		
+		}		
+	}
+
+	$scope.confirmCSSPlace = 'inline';
+	$scope.ConfirmPlace = function(place, answer) {
+		switch (place) {
+			case 0:
+				if (answer == true) {
+					
+				}
+				break;
+		}
+	}
+////////////////////////// }Отображение данных по графикам
+});
+
+
+ratingApp.config(function($routeProvider) {
+	$routeProvider
+	.when('/place1', {
+		templateUrl: '../../pages/functionality/votes/place_1.php'
+	})
+	.when('/place2', {
+		templateUrl: '../../pages/functionality/votes/place_2.php'
+	})
+	.when('/place3', {
+		templateUrl: '../../pages/functionality/votes/place_3.php'
+	})
+	.when('/place4',{
+		templateUrl: '../../pages/functionality/votes/place_4.php'
+	})
 });

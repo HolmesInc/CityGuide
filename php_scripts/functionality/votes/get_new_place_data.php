@@ -1,6 +1,6 @@
 ﻿<?php
 	require '../../db_connect.php';
-	$query = 'SELECT * FROM propose_institutions';
+	$query = 'SELECT * FROM propose_institutions  WHERE approval_indicator = 1';
 	$stmt = $dbh->prepare($query);
 	$stmt->execute();
 	//представляем результат в виде массива
