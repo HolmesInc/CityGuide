@@ -407,7 +407,7 @@ proposeApp.controller('proposeCtrl', function($scope, $http) {
 //////////////////////VOTES///////////////////////////////////////////////////////////////////////////////////////////////
 var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge','ngRoute']);
 ratingApp.controller('ratingCtrl', function($scope, $http) {
-////////////////////////// Отрисовка графиков{	
+////////////////////////// Отрисовка графиков	
 	var graphOpacity = 0.55;
 	$scope.placeObject = {
 		place: [
@@ -440,8 +440,8 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 		}
 		$scope.placeData = response.data;
 	});
-	//////////////////////// }Отрисовка графиков
-	//////////////////////// Отображение данных по графикам{
+	////////////////////////
+	//////////////////////// Отображение данных по графикам
 	$scope.placeCSSStatus = ['inline', 'inline', 'inline', 'inline'];
 	$scope.placePathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
 	$scope.placeEtalonPathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
@@ -461,6 +461,7 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 			for (var i = 0; i < $scope.placeCSSStatus.length; i++) {
 				if(i != param) {
 					$scope.placeCSSStatus[i] = 'inline';
+					$scope.confirmCSSPlace = 'inline';
 				}					
 			}
 			$scope.placeSelectedStatus[param] = false;
@@ -485,20 +486,39 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 		}		
 	}
 
-	$scope.confirmCSSPlace = 'inline';
-	$scope.ConfirmPlace = function(place, answer) {
-		switch (place) {
-			case 0:
-				if (answer == true) {
-					
+	$scope.confirmCSSPlace = 'inline'; // стиль для исчезающий объектов в подгруженных place-ах
+	$scope.ConfirmPlace = function(placeName, placeId, answer) {
+		var cookie = document.cookie; // получаем куки из браузера
+		var cookieParams = cookie.split('='); // отделяем имя куки от данных
+		var userLogin = cookieParams[0];
+		var checkUserVote = false;
+		$http.get('../../php_scripts/functionality/votes/check_user_votes.php').then(function(response) { // получаем данные о голосовавших пользователях
+			var votedUsers = response;
+			for (var i = 0; i < votedUsers.data.length; i++) {
+				if ( (userLogin == votedUsers.data[i].userLogin) && (placeName == votedUsers.data[i].placeName) && (placeId == votedUsers.data[i].placeId) ) {
+					checkUserVote = true;
 				}
-				break;
-		}
+			}
+			if (checkUserVote == true) {
+				alert("Спасибо за участие, но ваш голос уже был принят:)");
+				window.location.replace("http://arrow.ru/functionality/votes/rating.php");
+			}
+			else if (checkUserVote == false) {
+				$http.post('../../php_scripts/functionality/votes/post_new_vote.php', {
+					'userLogin': userLogin, 
+					'placeId': placeId, 
+					'placeName': placeName, 
+					'vote': answer
+				}).then(function() { // записываем данные о голосовании
+					$scope.confirmCSSPlace = 'none';
+				});
+			}
+		});
 	}
-////////////////////////// }Отображение данных по графикам
+////////////////////////// 
 });
 
-
+////////////////////////// Роутинг данных по графикам
 ratingApp.config(function($routeProvider) {
 	$routeProvider
 	.when('/place1', {
@@ -510,7 +530,7 @@ ratingApp.config(function($routeProvider) {
 	.when('/place3', {
 		templateUrl: '../../pages/functionality/votes/place_3.php'
 	})
-	.when('/place4',{
+	.when('/place4', {
 		templateUrl: '../../pages/functionality/votes/place_4.php'
 	})
 });

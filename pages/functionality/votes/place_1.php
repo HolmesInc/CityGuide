@@ -12,7 +12,7 @@
 			<tr> <td><b>Веб-сайт</b></td> <td>{{placeData[0].site}}</td> </tr>
 		</table>
 	</div>
-	<div class="col-md-5" ng-class="{display: confirmCSSPlace}">
+	<div class="col-md-5" ng-style="{display: confirmCSSPlace}">
 		<div class="row col-md-12">
 			<center>
 				<h4>
@@ -28,15 +28,15 @@
 							print_r($compare[0]);
 						}
 						catch(PDOException $e) {  
-						echo $e->getMessage();
+							echo $e->getMessage();
 						}
 					?>
 				</h4>
 			</center>
 		</div>
 		<div class="row col-md-12">
-			<button type="submit" class="btn btn-success col-md-5" style="float: left;" ng-click="ConfirmPlace(0, true)">Все верно</button>
-			<button type="submit" class="btn btn-danger col-md-5" style="float: right;" ng-click="ConfirmPlace(0, false)">Не верно</button>
+			<button type="submit" class="btn btn-success col-md-5" style="float: left;" ng-click="ConfirmPlace(placeData[0].name, placeData[0].id, true)">Все верно</button>
+			<button type="submit" class="btn btn-danger col-md-5" style="float: right;" ng-click="ConfirmPlace(placeData[0].name, placeData[0].id, false)">Не верно</button>
 		</div>
 	</div>
 	<div class="col-md-5" ng-show="confirmCSSPlace == 'none' " ng-hide="confirmCSSPlace == 'inline'">
