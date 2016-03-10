@@ -100,19 +100,19 @@
 					<table class="table table-condensed table-striped" ts-wrapper>
 						<thead>
 							<tr>
-								<th ts-criteria="name|lowercase" ts-default>Название</th>
+								<th ts-criteria="name|lowercase">Название</th>
 								<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
 								<th ts-criteria="rating|parseInt">Рейтинг</th>
 								<th ts-criteria="open_time|parseInt">Время открытия</th>
 								<th ts-criteria="close_time|parseInt">Время закрытия</th>
-								<th ts-criteria="adress|lowercase" ts-default>Адрес</th>
-								<th ts-criteria="metro|lowercase" ts-default>Ближайшее метро</th>
-								<th ts-criteria="phone|lowercase" ts-default>Номер телефона</th>
-								<th ts-criteria="site|lowercase" ts-default>Веб-сайт</th>
+								<th ts-criteria="adress|lowercase">Адрес</th>
+								<th ts-criteria="metro|lowercase">Ближайшее метро</th>
+								<th ts-criteria="phone|lowercase">Номер телефона</th>
+								<th ts-criteria="site|lowercase">Веб-сайт</th>
 							</tr>
 						</thead>
 						<tbody class="table-bordered">
-							<tr ng-repeat=" data in dbClubInfo track by data.name" ts-repeat ts-hide-no-data>
+							<tr ng-repeat="data in dbClubInfo" ts-repeat ts-hide-no-data>
 								<td>{{data.name}}</td>
 								<td>{{data.pryce_index}}</td>
 								<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>

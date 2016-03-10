@@ -6,7 +6,7 @@
 	<div class="navbar-collapse">
 		<ul class="nav navbar-nav">
 			<li><a href="../../index.php">Хочу в</a></li>
-			<li><a href="../../functionality/votes/rating.php">Голосую</a></li>
+			<li><a href="#" onclick="Link()">Голосую</a></li>
 			<li><a href="../../functionality/propose/propose.php">Предлагаю</a></li>
 			<li><a href="../../functionality/notes/toDo.php">Дела</a></li>
 		</ul>
@@ -16,3 +16,8 @@
 	</div>
 </nav>
 &#65279;
+<script type="text/javascript">
+	var Link = function() {
+		window.location.replace("http://arrow.ru/functionality/votes/rating.php");
+	}
+</script>

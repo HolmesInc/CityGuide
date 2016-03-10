@@ -1,4 +1,4 @@
-﻿<div class="col-md-9">
+﻿<div class="col-md-9" ng-show="showInfoPressed == 'true'">
 	<div class="col-md-7">	
 		<table class="table table-condensed table-striped"><!-- -->
 			<tr> <td><b>Название</b></td> <td>{{placeData[2].name}}</td> </tr>

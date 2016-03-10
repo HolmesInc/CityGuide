@@ -50,22 +50,22 @@
 		</div>
 		<div class="row col-md-12 decor">
 			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[0]}">
-				<a href="{{placePathes[0]}}" ng-click="ShowInfo(0)">
+				<a href="{{placePathes[0]}}" ng-click="ShowInfo(0)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place1" config="placeObject.place[0]"></raphael-gauge>
 				</a>
 			</div>
 			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[1]}">
-				<a href="{{placePathes[1]}}" ng-click="ShowInfo(1)">
+				<a href="{{placePathes[1]}}" ng-click="ShowInfo(1)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place2" config="placeObject.place[1]"></raphael-gauge>					
 				</a>
 			</div>
 			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[2]} ">
-				<a href="{{placePathes[2]}}" ng-click="ShowInfo(2)">
+				<a href="{{placePathes[2]}}" ng-click="ShowInfo(2)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place3" config="placeObject.place[2]"></raphael-gauge>
 				</a>
 			</div>
 			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[3]} ">
-				<a href="{{placePathes[3]}}" ng-click="ShowInfo(3)">
+				<a href="{{placePathes[3]}}" ng-click="ShowInfo(3)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place4" config="placeObject.place[3]"></raphael-gauge>
 				</a>
 			</div>

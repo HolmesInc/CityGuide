@@ -442,6 +442,7 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 	});
 	////////////////////////
 	//////////////////////// Отображение данных по графикам
+	$scope.showInfoPressed = 'false';
 	$scope.placeCSSStatus = ['inline', 'inline', 'inline', 'inline'];
 	$scope.placePathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
 	$scope.placeEtalonPathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
@@ -473,15 +474,19 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 		switch (param) {
 			case 0:
 					$scope.VisibleObjects(param);
+					$scope.showInfoPressed = 'true';
 				break;
 			case 1:
 					$scope.VisibleObjects(param);
+					$scope.showInfoPressed = 'true';
 				break;
 			case 2:
 					$scope.VisibleObjects(param);
+					$scope.showInfoPressed = 'true';
 				break;
 			case 3:
 					$scope.VisibleObjects(param);
+					$scope.showInfoPressed = 'true';
 				break;		
 		}		
 	}
