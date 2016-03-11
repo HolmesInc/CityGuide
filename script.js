@@ -65,7 +65,8 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 				mapTypeId: 'roadmap'
 			});
 		var infoWindow = new google.maps.InfoWindow;
-		downloadUrl("../../../php_scripts/functionality/getClubLocation.php", function(data) {
+		var mapPath = 'getClubLocation.php';
+		downloadUrl("../../../php_scripts/functionality/" + mapPath, function(data) {
 			var xml = data.responseXML;
 			markers = xml.documentElement.getElementsByTagName("marker");
 			for (var i = 0; i < markers.length; i++) {

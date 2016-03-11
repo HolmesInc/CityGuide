@@ -15,7 +15,7 @@
 	$query = "SELECT markers.lat, markers.lng, institutions.name, institutions.adress, institutions.phone 
 		FROM institutions 
 		INNER JOIN markers 
-		ON markers.id_institution = institutions.id";
+		ON markers.id = institutions.id";
 	$stmt = $dbConnect->prepare($query);
 	$stmt->execute();
 

@@ -1,5 +1,5 @@
-﻿<div class="col-md-9" ng-show="showInfoPressed == 'true'">
-	<div class="col-md-7">	
+﻿<div class="col-md-9 col-sm-6 col-xs-12" ng-show="showInfoPressed == 'true'">
+	<div class="col-md-7 table-responsive" style=" padding-right: 0; padding-left: 0;">
 		<table class="table table-condensed table-striped"><!-- -->
 			<tr> <td><b>Название</b></td> <td>{{placeData[2].name}}</td> </tr>
 			<tr> <td><b>Категория</b></td> <td>{{placeData[2].category}}</td> </tr>

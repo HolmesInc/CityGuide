@@ -33,19 +33,14 @@
 	?>
 <!--///////////////////////////////////Страница////////////////////////////////////////-->
 	<div class="container">
-		<div class="row col-sm-12">
+		<div class="col-sm-12">
 			<center>
 				<h4>
 					<?php 
 						try{
-							$db_name  = 'arrow_db';
-							$hostname = '127.0.0.1';
-							$db_username = 'holmes';
-							$db_password = '123';
-							// подключаемся к базе данных
-							$dbh = new PDO("mysql:host=$hostname;dbname=$db_name", $db_username, $db_password);
+							include('../../php_scripts/db_connect.php');
 							// делаем запрос на получение данных
-							$sql = ' SELECT text FROM posts WHERE page = "../functionality/selection/club.php" AND id_post = "1" ';
+							$sql = ' SELECT text FROM posts WHERE page = "../functionality/selection/cinema.php"';
 							$stmt = $dbh->prepare( $sql );
 							// запускаем запрос
 							$stmt->execute();
@@ -59,74 +54,70 @@
 				</h4>
 			</center>
 		</div>
-		<div>
-			<div class="col-md-12">
-				<form>
-					<div class="row well" style="margin-top: 70px;">
-						<ul class="list-inline">
-							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1,2)"/>
-									<label for="switchOptionPrimary1" class="label-primary"></label>
-									Поближе к метро
-								</div>
-							</li>
-							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2,2)"/>
-									<label for="switchOptionPrimary2" class="label-primary"></label>
-									Подешевле
-								</div>
-							</li>
-							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3,2)"/>
-									<label for="switchOptionPrimary3" class="label-primary"></label>
-									Подороже
-								</div>
-							</li>
-							<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
-								<div class="material-switch">
-									<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4,2)"/>
-									<label for="switchOptionPrimary4" class="label-primary"></label>
-									Есть сайт
-								</div>
-							</li>
-						</ul>
-					</div>
-				</form>
-				<div class="col-md-12 table-responsive">
-					<table class="table table-condensed table-striped" ts-wrapper>
-						<thead>
-							<tr>
-								<th ts-criteria="name|lowercase" ts-default>Название</th>
-								<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
-								<th ts-criteria="rating|parseInt">Рейтинг</th>
-								<th ts-criteria="open_time|parseInt">Время открытия</th>
-								<th ts-criteria="close_time|parseInt">Время закрытия</th>
-								<th ts-criteria="adress|lowercase" ts-default>Адрес</th>
-								<th ts-criteria="metro|lowercase" ts-default>Ближайшее метро</th>
-								<th ts-criteria="phone|lowercase" ts-default>Номер телефона</th>
-								<th ts-criteria="site|lowercase" ts-default>Веб-сайт</th>
-							</tr>
-						</thead>
-						<tbody class="table-bordered">
-							<tr ng-repeat=" data in dbCinemaInfo track by data.name" ts-repeat ts-hide-no-data>
-								<td>{{data.name}}</td>
-								<td>{{data.pryce_index}}</td>
-								<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
-								<td>{{data.open_time}}</td>
-								<td>{{data.close_time}}</td>
-								<td><a href = "#map" ng-click="NewZoom($index)">{{data.adress}}<a></td>
-								<td><div ng-show="data.metro != '-' ">{{data.metro}}</div></td>
-								<td><div ng-show="data.phone != '-' ">{{data.phone}}</div></td>
-								<td><a ng-show="data.site != '-' " ng-href="http://{{data.site}}">{{data.site}}</a></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-			</div>	
-			<div class="col-md-12">
+		<div class="col-md-12 panel panel-default" style="padding-left: 0; padding-right: 0;">
+			<div class="col-md-12 well">
+				<ul class="list-inline">
+					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+						<div class="material-switch">
+							<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1,2)"/>
+							<label for="switchOptionPrimary1" class="label-primary"></label>
+							Поближе к метро
+						</div>
+					</li>
+					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+						<div class="material-switch">
+							<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2,2)"/>
+							<label for="switchOptionPrimary2" class="label-primary"></label>
+							Подешевле
+						</div>
+					</li>
+					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+						<div class="material-switch">
+							<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3,2)"/>
+							<label for="switchOptionPrimary3" class="label-primary"></label>
+							Подороже
+						</div>
+					</li>
+					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+						<div class="material-switch">
+							<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4,2)"/>
+							<label for="switchOptionPrimary4" class="label-primary"></label>
+							Есть сайт
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="col-md-12 table-responsive">
+				<table class="table table-condensed table-striped" ts-wrapper>
+					<thead>
+						<tr>
+							<th ts-criteria="name|lowercase">Название</th>
+							<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
+							<th ts-criteria="rating|parseInt">Рейтинг</th>
+							<th ts-criteria="open_time|parseInt">Время открытия</th>
+							<th ts-criteria="close_time|parseInt">Время закрытия</th>
+							<th ts-criteria="adress|lowercase">Адрес</th>
+							<th ts-criteria="metro|lowercase">Ближайшее метро</th>
+							<th ts-criteria="phone|lowercase">Номер телефона</th>
+							<th ts-criteria="site|lowercase">Веб-сайт</th>
+						</tr>
+					</thead>
+					<tbody class="table-bordered">
+						<tr ng-repeat="data in dbCinemaInfo" ts-repeat ts-hide-no-data>
+							<td>{{data.name}}</td>
+							<td>{{data.pryce_index}}</td>
+							<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
+							<td>{{data.open_time}}</td>
+							<td>{{data.close_time}}</td>
+							<td><a href = "#map" ng-click="NewZoom($index)">{{data.adress}}</a></td>
+							<td><div ng-show="data.metro != '-' ">{{data.metro}}</div></td>
+							<td><div ng-show="data.phone != '-' ">{{data.phone}}</div></td>
+							<td><a ng-show="data.site != '-' " ng-href="http://{{data.site}}">{{data.site}}</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-12" style="padding-top: 15px; padding-bottom: 15px;">
 				<div id="map" style="width: 100%; height: 600px"></div>
 			</div>
 		</div>
