@@ -58,15 +58,33 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 	var city = new google.maps.LatLng(49.9935, 36.230383); //начальная позиция на карте
 	var zoom = 11;
 
-	$scope.ShowMap = function() {
+	$scope.ShowMap = function(placeType) {
 		map = new google.maps.Map(document.getElementById("map"), {
 				center: city,
 				zoom: zoom,
 				mapTypeId: 'roadmap'
 			});
 		var infoWindow = new google.maps.InfoWindow;
-		var mapPath = 'getClubLocation.php';
-		downloadUrl("../../../php_scripts/functionality/" + mapPath, function(data) {
+		var clubMapPath = 'getClubLocation.php';
+		var cinemaMapPath = 'getCinemaLocation.php';
+		var sushiMapPath = 'getSushiLocation.php';
+		var pizzaMapPath = 'getPizzaLocation.php';
+		var placePath = '';
+		switch (placeType) {
+			case 1:
+				placePath = clubMapPath;
+				break;
+			case 2:
+				placePath = cinemaMapPath;
+				break;
+			case 3:
+				placePath = sushiMapPath;
+				break;
+			case 4:
+				placePath = pizzaMapPath;
+				break;
+		}
+		downloadUrl("../../../php_scripts/functionality/selection/" + placePath, function(data) {
 			var xml = data.responseXML;
 			markers = xml.documentElement.getElementsByTagName("marker");
 			for (var i = 0; i < markers.length; i++) {

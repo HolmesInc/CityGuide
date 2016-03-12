@@ -26,7 +26,7 @@
 	<script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script>
 	-->
 </head>
-<body ng-controller="selectionCtrl" ng-init="ShowMap()"> <!--ng-init="ShowMap()"-->
+<body ng-controller="selectionCtrl" ng-init="ShowMap(1)"> <!--ng-init="ShowMap()"-->
 
 <!--////////////////////////////////Главное меню///////////////////////////////////////-->
 	<?php 
