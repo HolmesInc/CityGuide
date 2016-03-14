@@ -59,12 +59,12 @@
 					<raphael-gauge id="place2" config="placeObject.place[1]"></raphael-gauge>					
 				</a>
 			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[2]} ">
+			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[2]}">
 				<a href="{{placePathes[2]}}" ng-click="ShowInfo(2)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place3" config="placeObject.place[2]"></raphael-gauge>
 				</a>
 			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[3]} ">
+			<div class="col-md-3 col-sm-6 col-xs-12" ng-style="{display: placeCSSStatus[3]}">
 				<a href="{{placePathes[3]}}" ng-click="ShowInfo(3)" title="Отобразить/Скрыть информацию">
 					<raphael-gauge id="place4" config="placeObject.place[3]"></raphael-gauge>
 				</a>

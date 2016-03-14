@@ -7,17 +7,13 @@ loginFormApp.controller('loginCtrl',function($scope, $http){
 	$scope.master = {};
 	$scope.isUnchanged = function(user) {
 		return angular.equals(user, $scope.master);
-	};
-	//$scope.reset();				
+	};			
 });
 ///////////////////////REGISTRATION///////////////////////////////////////////////////////////////////////////////////////
 var regFormApp = angular.module('regFormApp', ['vcRecaptcha']);
 
 regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
 	$scope.master = {};
-	/*$scope.Update = function(newUser) {
-		$scope.master= angular.copy(newUser);
-	};*/
 	$scope.ConfirmPass = function(newUser) {
 		return !(angular.equals(newUser.password, newUser.confirmPassword));
 	};
@@ -140,6 +136,7 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 	}
 ////////////////////////// Карта
 ////////////////////////// Работа с даными из БД
+	$scope.tableRowCSSStatus = [];
 	$scope.nearMetro = 0;
 	$scope.lowPrice = 0;
 	$scope.highPrice = 0;
@@ -158,156 +155,103 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 				$scope.dbPizzaInfo = response.data;
 			});
 
+//////////////////////Новый алгоритм сортировки заведений
+//(Добавить возможность перекрёсной сортировки. Возможно с помощью массива, содержащего информацию о том, какой чек скрыл данную строку)
+	$scope.SortInfo = function(checker, dbPlaceData) {
+		if ($scope.tableRowCSSStatus.length < dbPlaceData.length) { //создаём пустой массив состояний строк таблицы
+			for (var i = 0; i < dbPlaceData.length; i++) {
+				$scope.tableRowCSSStatus.push('');
+			}
+		}
+		switch (checker) {
+			case 1:
+				$scope.nearMetro += 1;
+				if ($scope.nearMetro % 2 != 0) { // скрываем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (dbPlaceData[i].metro == '-') {
+							$scope.tableRowCSSStatus[i] = 'none';
+						}
+					}
+				}
+				else if ($scope.nearMetro % 2 == 0) { // возвращаем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (dbPlaceData[i].metro == '-') {
+							$scope.tableRowCSSStatus[i] = '';
+						}	
+					}
+				}
+				break;
+			case 2:
+				$scope.lowPrice += 1;
+				if ($scope.lowPrice % 2 != 0) { // скрываем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (parseInt(dbPlaceData[i].pryce_index) > 3) {
+							$scope.tableRowCSSStatus[i] = 'none';
+						}
+					}
+				}
+				else if ($scope.lowPrice % 2 == 0) { // возвращаем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (parseInt(dbPlaceData[i].pryce_index) > 3) {
+							$scope.tableRowCSSStatus[i] = '';
+						}
+					}
+				}
+				break;
+			case 3:
+				$scope.highPrice += 1;
+				if ($scope.highPrice % 2 != 0) { // скрываем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (parseInt(dbPlaceData[i].pryce_index) <= 3) {
+							$scope.tableRowCSSStatus[i] = 'none';
+						}
+					}
+				}
+				else if ($scope.highPrice % 2 == 0) { // возвращаем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (parseInt(dbPlaceData[i].pryce_index) <= 3) {
+							$scope.tableRowCSSStatus[i] = '';
+						}
+					}
+				}
+				break;
+			case 4:
+				$scope.withSite += 1;
+				if ($scope.withSite % 2 != 0) { // скрываем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (dbPlaceData[i].site == '-') {
+							$scope.tableRowCSSStatus[i] = 'none';
+						}
+					}
+				}
+				else if ($scope.withSite % 2 == 0) { // возвращаем строку
+					for (var i = 0; i < dbPlaceData.length; i++) {
+						if (dbPlaceData[i].site == '-') {
+							$scope.tableRowCSSStatus[i] = '';
+						}
+					}
+				}
+				break;
+		}
+	}
+
 	$scope.ShowInfo = function(checker, institution) {
 		switch (institution) {
 			case 1:
-				$scope.ManipulateData(checker, $scope.dbClubInfo);
+				$scope.SortInfo(checker, $scope.dbClubInfo);
 				break;
 			case 2:
-				$scope.ManipulateData(checker, $scope.dbCinemaInfo);
+				$scope.SortInfo(checker, $scope.dbCinemaInfo);
 				break;
 			case 3:
-				$scope.ManipulateData(checker, $scope.dbSushiInfo);
+				$scope.SortInfo(checker, $scope.dbSushiInfo);
 				break;
 			case 4:
-				$scope.ManipulateData(checker, $scope.dbPizzaInfo);
-				break;
-		}
-
-	}
-	$scope.ReturnData = function(splicedData, dbInfo) {
-		for(var i = 0; i < splicedData.length; i++) {
-			dbInfo.push({
-				'name':splicedData[i].name, 
-				'pryce_index':splicedData[i].pryce_index,
-				'rating':splicedData[i].rating, 
-				'open_time':splicedData[i].open_time,
-				'close_time':splicedData[i].close_time, 
-				'adress':splicedData[i].adress,
-				'metro': splicedData[i].metro,
-				'phone':splicedData[i].phone, 
-				'site':splicedData[i].site
-			});
-		}
-		splicedData = [];
-	}
-	$scope.ManipulateData = function(checker, dbInfo) {
-		var dbInfoLength = dbInfo.length
-		switch (checker) {
-			case 1: 
-				$scope.nearMetro += 1;
-				if($scope.nearMetro % 2 != 0) {
-					$scope.splicedMetro = [];
-					for(var j = 0; j < dbInfoLength; j++) {
-						for(var i = 0; i < dbInfo.length; i++) {
-							if(dbInfo[i].metro == '-') {							
-								$scope.splicedMetro.push({
-									'name':dbInfo[i].name, 
-									'pryce_index':dbInfo[i].pryce_index,
-									'rating':dbInfo[i].rating,
-									'open_time':dbInfo[i].open_time,
-									'close_time':dbInfo[i].close_time, 
-									'adress':dbInfo[i].adress,
-									'metro':dbInfo[i].metro,
-									'phone':dbInfo[i].phone, 
-									'site':dbInfo[i].site
-								});
-								dbInfo.splice(i, 1);
-							}
-						}
-					}
-				}
-				else
-					if($scope.nearMetro % 2 == 0) {
-						$scope.ReturnData($scope.splicedMetro, dbInfo);
-					}
-				break;
-			case 2: 
-				$scope.lowPrice += 1;
-				if($scope.lowPrice % 2 != 0) {
-					$scope.splicedLowPrice = [];
-					for(var j = 0; j < dbInfoLength; j++) {
-						for(var i = 0; i < dbInfo.length; i++) {
-							if( parseInt(dbInfo[i].pryce_index) >= 3 ) {
-								$scope.splicedLowPrice.push({
-									'name':dbInfo[i].name, 
-									'pryce_index':dbInfo[i].pryce_index,
-									'rating':dbInfo[i].rating,
-									'open_time':dbInfo[i].open_time,
-									'close_time':dbInfo[i].close_time, 
-									'adress':dbInfo[i].adress,
-									'metro':dbInfo[i].metro,
-									'phone':dbInfo[i].phone, 
-									'site':dbInfo[i].site
-								});
-								dbInfo.splice(i, 1);
-							}
-						}
-					}
-				}
-				else
-					if($scope.lowPrice % 2 == 0) {
-						$scope.ReturnData($scope.splicedLowPrice, dbInfo);
-					}
-				break;
-			case 3: 
-				$scope.highPrice += 1;
-				if($scope.highPrice % 2 != 0) {
-						$scope.splicedHighPrice = [];
-					for(var j = 0; j < dbInfoLength; j++) {
-						for(var i = 0; i < dbInfo.length; i++) {
-							if( parseInt(dbInfo[i].pryce_index) < 3 ) {
-								$scope.splicedHighPrice.push({
-									'name':dbInfo[i].name, 
-									'pryce_index':dbInfo[i].pryce_index,
-									'rating':dbInfo[i].rating,
-									'open_time':dbInfo[i].open_time,
-									'close_time':dbInfo[i].close_time, 
-									'adress':dbInfo[i].adress,
-									'metro':dbInfo[i].metro,
-									'phone':dbInfo[i].phone, 
-									'site':dbInfo[i].site
-								});
-								dbInfo.splice(i, 1);
-							}
-						}
-					}
-				}
-				else
-					if($scope.highPrice % 2 == 0) {					
-						$scope.ReturnData($scope.splicedHighPrice, dbInfo);
-					}
-				break;
-			case 4: 
-				$scope.withSite += 1;
-				if($scope.withSite % 2 != 0) {
-						$scope.splicedWithSite = [];
-					for(var j = 0; j < dbInfoLength; j++) {
-						for(var i = 0; i < dbInfo.length; i++) {
-							if( dbInfo[i].site == '-' ) {
-								$scope.splicedWithSite.push({
-									'name':dbInfo[i].name, 
-									'pryce_index':dbInfo[i].pryce_index,
-									'rating':dbInfo[i].rating,
-									'open_time':dbInfo[i].open_time,
-									'close_time':dbInfo[i].close_time, 
-									'adress':dbInfo[i].adress,
-									'metro':dbInfo[i].metro,
-									'phone':dbInfo[i].phone, 
-									'site':dbInfo[i].site
-								});
-								dbInfo.splice(i, 1);
-							}
-						}
-					}
-				}
-				else
-					if($scope.withSite % 2 == 0) {						
-						$scope.ReturnData($scope.splicedWithSite, dbInfo);
-					}
+				$scope.SortInfo(checker, $scope.dbPizzaInfo);
 				break;
 		}
 	}
+//////////////////////
 });
 ///////////////////////PROPOSE////////////////////////////////////////////////////////////////////////////////////////////
 var proposeApp = angular.module('proposeApp', []);

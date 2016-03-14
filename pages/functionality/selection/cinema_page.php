@@ -9,13 +9,17 @@
 		.navbar-brand a {
 			text-decoration: none;
 		}
-		td{
+		td {
 			border: 1px solid #ddd;
 			text-align: center;
 		}
-		th{
+		th {
 			text-align: center;
 			cursor: pointer;
+		}
+		.checker li {
+			margin-bottom: 4px;
+			padding-left: 5%;
 		}
 	</style>
 	<script type="text/javascript" src="../../addons/angular.js"></script>
@@ -55,33 +59,33 @@
 			</center>
 		</div>
 		<div class="col-md-12 panel panel-default" style="padding-left: 0; padding-right: 0;">
-			<div class="col-md-12 well">
-				<ul class="list-inline">
-					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+			<div class="col-md-12 col-xs-12 col-sm-12 well">
+				<ul class="list-inline checker">
+					<li class="col-md-3 col-xs-12 col-sm-6">
 						<div class="material-switch">
 							<input type="checkbox" id="switchOptionPrimary1" name="switchOption001" ng-model="$scope.nearMetro" ng-change="ShowInfo(1,2)"/>
-							<label for="switchOptionPrimary1" class="label-primary"></label>
+							<label for="switchOptionPrimary1" class="label-primary" title="Убрать заведеня, удалённые от метро"></label>
 							Поближе к метро
 						</div>
 					</li>
-					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+					<li class="col-md-3 col-xs-12 col-sm-6">
 						<div class="material-switch">
 							<input type="checkbox" id="switchOptionPrimary2" name="switchOption002" ng-model="$scope.lowPrice" ng-change="ShowInfo(2,2)"/>
-							<label for="switchOptionPrimary2" class="label-primary"></label>
+							<label for="switchOptionPrimary2" class="label-primary" title="Убрать заведеня с ценовым индексом выше 3"></label>
 							Подешевле
 						</div>
 					</li>
-					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+					<li class="col-md-3 col-xs-12 col-sm-6">
 						<div class="material-switch">
 							<input type="checkbox" id="switchOptionPrimary3" name="switchOption003" ng-model="$scope.highPrice" ng-change="ShowInfo(3,2)"/>
-							<label for="switchOptionPrimary3" class="label-primary"></label>
+							<label for="switchOptionPrimary3" class="label-primary" title="Убрать заведеня с ценовым индексом ниже 4"></label>
 							Подороже
 						</div>
 					</li>
-					<li class="col-md-3 col-xs-12 col-sm-6" style="margin-bottom: 4px;">
+					<li class="col-md-3 col-xs-12 col-sm-6">
 						<div class="material-switch">
 							<input type="checkbox" id="switchOptionPrimary4" name="switchOption004" ng-model="$scope.withSite" ng-change="ShowInfo(4,2)"/>
-							<label for="switchOptionPrimary4" class="label-primary"></label>
+							<label for="switchOptionPrimary4" class="label-primary" title="Убрать заведеня без сайта"></label>
 							Есть сайт
 						</div>
 					</li>
@@ -93,7 +97,7 @@
 						<tr>
 							<th ts-criteria="name|lowercase">Название</th>
 							<th ts-criteria="pryce_index|parseInt">Ценовой индекс</th>
-							<th ts-criteria="rating|parseInt">Рейтинг</th>
+							<!--th ts-criteria="rating|parseInt">Рейтинг</th-->
 							<th ts-criteria="open_time|parseInt">Время открытия</th>
 							<th ts-criteria="close_time|parseInt">Время закрытия</th>
 							<th ts-criteria="adress|lowercase">Адрес</th>
@@ -103,10 +107,10 @@
 						</tr>
 					</thead>
 					<tbody class="table-bordered">
-						<tr ng-repeat="data in dbCinemaInfo" ts-repeat ts-hide-no-data>
+						<tr ng-repeat="data in dbCinemaInfo" ts-repeat ts-hide-no-data ng-style="{display: tableRowCSSStatus[$index]}">
 							<td>{{data.name}}</td>
 							<td>{{data.pryce_index}}</td>
-							<td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td>
+							<!--td><div ng-show="data.rating != '-' ">{{data.rating}}</div></td-->
 							<td>{{data.open_time}}</td>
 							<td>{{data.close_time}}</td>
 							<td><a href = "#map" ng-click="NewZoom($index)">{{data.adress}}</a></td>
