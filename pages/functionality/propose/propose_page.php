@@ -34,12 +34,7 @@
 				<h4>
 					<?php 
 						try{
-							$db_name  = 'arrow_db';
-							$hostname = '127.0.0.1';
-							$db_username = 'holmes';
-							$db_password = '123';
-							// подключаемся к базе данных
-							$dbh = new PDO("mysql:host=$hostname;dbname=$db_name", $db_username, $db_password);
+							include('../../php_scripts/db_connect.php');
 							// делаем запрос на получение данных
 							$sql = ' SELECT text FROM posts WHERE page = "../functionality/propose/propose.php" AND id_post = "2" ';
 							$stmt = $dbh->prepare( $sql );

@@ -1,32 +1,22 @@
 ﻿<?php
 	//error_reporting( E_ERROR );
-	if(isset($_POST['enter'])){
+	if(isset($_POST['enter'])) {
 		$login = $_POST["userEmail"];
 		$login = str_replace('.', '', $login);
 		$password = md5($_POST["userPassword"]);
-		$dbName  = 'arrow_db';
-	    $hostname = '127.0.0.1';
-	    $dbUsername = 'holmes';
-	    $dbPassword = '123';
-
-	    // подключаемся к базе данных
-	    $dbh = new PDO("mysql:host=$hostname;dbname=$dbName", $dbUsername, $dbPassword);
-
-	    // делаем запрос на получение данных
-	    $sql = 'SELECT name, login, password FROM users';
-	    
-	    $stmt = $dbh->prepare( $sql );
+		require 'php_scripts/db_connect.php';
+		// делаем запрос на получение данных
+		$sql = 'SELECT name, login, password FROM users';  
+		$stmt = $dbh->prepare( $sql );
 		// запускаем запрос
 		$stmt->execute();
-		
 		$checkLogin = 0;
-		while ($compare = $stmt->fetch(PDO::FETCH_LAZY)){
-			if($login === $compare->login){
-				if($password === $compare->password){
-					//$login = str_replace('.', '', $login);
+		while ($compare = $stmt->fetch(PDO::FETCH_LAZY)) {
+			if($login === $compare->login) {
+				if($password === $compare->password) {
 					setcookie($login,$compare->name,time()+604800);
 					$checkLogin = 1;
-					header('Location:http://arrow.ru');
+					header('Location: http://arrow.ru');
   					exit;
 					break;
 				}
@@ -37,7 +27,7 @@
 			}
 		}
 		if($checkLogin === 0)
-            echo "<script> alert('Логин не существует или введён неверно'); </script>";
+			echo "<script> alert('Логин не существует или введён неверно'); </script>";
 	}
 ?>
 <?php

@@ -6,10 +6,10 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<link rel="stylesheet" type="text/css" href="addons/bootstrap/css/bootstrap.css">
 	<style type="text/css">
-		.regForm input.ng-invalid .ng-dirty {
+		.regForm input.ng-invalid.ng-dirty {
 			background-color: #FA787E;
 		}
-		.regForm input.ng-valid .ng-dirty {
+		.regForm input.ng-valid.ng-dirty {
 			background-color: #78FA89;
 		}
 	</style>
@@ -47,7 +47,7 @@
 					<div class="form-group">
 						<label for="regUserName" class="col-sm-2 control-label">Имя</label>
 						<div class="col-sm-10">
-							<input type="text" class="form-control" id="regUserName" name="regUserName" placeholder="Ваше имя" ng-model="newUser.name" required/>
+							<input type="text" class="form-control" id="regUserName" name="regUserName" placeholder="Ваше имя" minlength="5" ng-model="newUser.name" required/>
 						</div>
 					</div>
 
@@ -61,14 +61,14 @@
 					<div class="form-group">
 						<label for="regUserPassword" class="col-sm-3 control-label">Придумаем</label>
 						<div class="col-sm-9">
-							<input type="password" class="form-control" id="regUserPassword" name="regUserPassword" placeholder="Пароль" ng-model="newUser.password" required/>
+							<input type="password" class="form-control" id="regUserPassword" name="regUserPassword" placeholder="Пароль" minlength="5" ng-model="newUser.password" required/>
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="confirmPassword" class="col-sm-3 control-label">Повторим</label>
 						<div class="col-sm-9">
-							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Пароль" ng-model="newUser.confirmPassword" required/>
+							<input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Пароль" minlength="5" ng-model="newUser.confirmPassword" required/>
 						</div>
 					</div>
 					

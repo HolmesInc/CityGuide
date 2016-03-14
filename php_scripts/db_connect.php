@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 	$db_name  = 'arrow_db';
 	$hostname = '127.0.0.1';
 	$db_username = 'holmes';

@@ -12,7 +12,7 @@
 		.loginForm input.ng-valid.ng-dirty {
 			background-color: #78FA89;
 		}
-				.navbar-brand a {
+		.navbar-brand a {
 			text-decoration: none;
 		}
 	</style>

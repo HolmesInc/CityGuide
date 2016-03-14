@@ -8,7 +8,6 @@
 			<li><a href="../../index.php">Хочу в</a></li>
 			<li><a href="#" onclick="Link()">Голосую</a></li>
 			<li><a href="../../functionality/propose/propose.php">Предлагаю</a></li>
-			<li><a href="../../functionality/notes/toDo.php">Дела</a></li>
 		</ul>
 		<ul class="nav navbar-nav navbar-right">
 			<li><a href="../../php_scripts/unlogining_user.php">Выйти</a></li>

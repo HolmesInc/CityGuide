@@ -1,48 +1,48 @@
 ﻿///////////////////////INDEX//////////////////////////////////////////////////////////////////////////////////////////////
 var indexApp = angular.module('indexApp', []);
 ///////////////////////LOGIN//////////////////////////////////////////////////////////////////////////////////////////////
-var loginFormApp = angular.module('loginFormApp', []);
+var loginFormApp = angular.module('loginFormApp', []); // модуль страницы ввода логина
 
-loginFormApp.controller('loginCtrl',function($scope, $http){
+loginFormApp.controller('loginCtrl',function($scope, $http) {
 	$scope.master = {};
-	$scope.isUnchanged = function(user) {
+	$scope.isUnchanged = function(user) { // функция проверки на заполненность поля
 		return angular.equals(user, $scope.master);
 	};			
 });
 ///////////////////////REGISTRATION///////////////////////////////////////////////////////////////////////////////////////
-var regFormApp = angular.module('regFormApp', ['vcRecaptcha']);
+var regFormApp = angular.module('regFormApp', ['vcRecaptcha']); // модуль формы регистрации (с подключённым модулем Капчи)
 
-regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService){
+regFormApp.controller('regCtrl', function($scope, $http, vcRecaptchaService) {
 	$scope.master = {};
-	$scope.ConfirmPass = function(newUser) {
+	$scope.ConfirmPass = function(newUser) { // функция проверки на соответствие пароля и его подтверждения
 		return !(angular.equals(newUser.password, newUser.confirmPassword));
 	};
 
-	$scope.SignUp = function(newUser){
-		newUser.checkEmail = false;//переменная для проверки на существующий email
-		$http.get('php_scripts/check_user.php').success(function(data){
+	$scope.SignUp = function(newUser) { // функция регистрации пользователя
+		newUser.checkEmail = false; // переменная для проверки на существующий email
+		$http.get('php_scripts/check_user.php').then(function(data) { // получение данных о пользователях и их сравнение с регистрируемым
 			$scope.dbInfo = data;
-			for(var i = 0; i < $scope.dbInfo.length; i++){
-				if(newUser.email==$scope.dbInfo[i].email){
+			for(var i = 0; i < $scope.dbInfo.data.length; i++) {
+				if(newUser.email == $scope.dbInfo.data[i].email) {
 					newUser.checkEmail = true;
 				}
 			}
-			if(newUser.checkEmail==true){
+			if(newUser.checkEmail==true) {
 				alert("К сожалению, такой E-Mail уже зарегестрирован");
 			}
-			else{
-				$http.post('php_scripts/user_registration.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password}).success(function(){
+			else {
+				$http.post('php_scripts/user_registration.php', {'name': newUser.name, 'email': newUser.email, 'password': newUser.password}).then(function() {
 					alert("Поздравляем, Вы зарегистрировались!");
-					window.location.replace("http://arrow.ru/login.php");
+					window.location.replace("login.php");
 				});
 			}
 		});
 	}
 });
 ///////////////////////SELECTION//////////////////////////////////////////////////////////////////////////////////////////
-var selectionApp = angular.module('selectionApp', ['tableSort']);
+var selectionApp = angular.module('selectionApp', ['tableSort']); // модуль выборки по заведениям
 
-selectionApp.controller('selectionCtrl', function($scope, $http){
+selectionApp.controller('selectionCtrl', function($scope, $http) {
 ////////////////////////// Карта
 	var customIcons = {
 			club: {
@@ -61,6 +61,7 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 				mapTypeId: 'roadmap'
 			});
 		var infoWindow = new google.maps.InfoWindow;
+		// ссылки на php-скрипты для получения дпнных о заведениях для карты
 		var clubMapPath = 'getClubLocation.php';
 		var cinemaMapPath = 'getCinemaLocation.php';
 		var sushiMapPath = 'getSushiLocation.php';
@@ -136,7 +137,8 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 	}
 ////////////////////////// Карта
 ////////////////////////// Работа с даными из БД
-	$scope.tableRowCSSStatus = [];
+	$scope.tableRowCSSStatus = []; // массив для хранения статусов строк таблицы выборки(скрыта/показана)
+	// переменные, хранящие состояние соответствующих переключателей
 	$scope.nearMetro = 0;
 	$scope.lowPrice = 0;
 	$scope.highPrice = 0;
@@ -163,7 +165,7 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 				$scope.tableRowCSSStatus.push('');
 			}
 		}
-		switch (checker) {
+		switch (checker) { // выбираем значения пришедшего переключателя(1-Поближе к метро; 2-Подшевле; 3-Подороже; 4-Есть сайт)
 			case 1:
 				$scope.nearMetro += 1;
 				if ($scope.nearMetro % 2 != 0) { // скрываем строку
@@ -235,7 +237,8 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 		}
 	}
 
-	$scope.ShowInfo = function(checker, institution) {
+	$scope.ShowInfo = function(checker, institution) { // функция проверяет, какой тип заведения будет отсортирован по пришедшему значению:
+		// (1-Клубы; 2-Кинотеатры; 3-Суши-бары; 4-Пиццерии)
 		switch (institution) {
 			case 1:
 				$scope.SortInfo(checker, $scope.dbClubInfo);
@@ -254,15 +257,15 @@ selectionApp.controller('selectionCtrl', function($scope, $http){
 //////////////////////
 });
 ///////////////////////PROPOSE////////////////////////////////////////////////////////////////////////////////////////////
-var proposeApp = angular.module('proposeApp', []);
+var proposeApp = angular.module('proposeApp', []); // модуль страницы для рекомендации заведения на голосование
 
-proposeApp.directive('ngTextValidation', function(){
+proposeApp.directive('ngTextValidation', function() { // директива проверяет введённую информацию на соответствие регулярному выражению
 	return {
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function textValidation(value) {
-				var regular = /[A-ZА-Яa-zа-я]/;
-				if ( regular.test(value) == true ){
+				var regular = /[A-ZА-Яa-zа-я]/; // текст на латинице или киррилице
+				if ( regular.test(value) == true ) {
 					ctrl.$setValidity('text', true);
 				}
 				else {
@@ -275,12 +278,12 @@ proposeApp.directive('ngTextValidation', function(){
 	}
 });
 
-proposeApp.directive('ngTimeValidation', function() {
+proposeApp.directive('ngTimeValidation', function() { // директива проверяет введённую информацию на соответствие регулярному выражению
 	return {
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function timeValidation(value) {
-				var regular = /^\d{1,2}:\d{2}([ap]m)?$/;
+				var regular = /^\d{1,2}:\d{2}([ap]m)?$/; // формат времени 00:00
 				if ( regular.test(value) == true ) {
 					ctrl.$setValidity('time', true);
 				}
@@ -294,13 +297,13 @@ proposeApp.directive('ngTimeValidation', function() {
 	}
 });
 
-proposeApp.directive('ngPhoneValidation', function(){
+proposeApp.directive('ngPhoneValidation', function() { // директива проверяет введённую информацию на соответствие регулярному выражению
 	return {
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function phoneValidation(value) {
-				var regular = /\(\d{3}\)\-\d{3}\-\d{2}\-\d{2}/;
-				if ( regular.test(value) == true ){
+				var regular = /\(\d{3}\)\-\d{3}\-\d{2}\-\d{2}/; // формат телефонного номера (000)-000-00-00
+				if ( regular.test(value) == true ) {
 					ctrl.$setValidity('phone', true);
 				}
 				else {
@@ -313,13 +316,13 @@ proposeApp.directive('ngPhoneValidation', function(){
 	}
 });
 
-proposeApp.directive('ngSiteValidation', function(){
+proposeApp.directive('ngSiteValidation', function() { // директива проверяет введённую информацию на соответствие регулярному выражению
 	return {
 		require: 'ngModel',
 		link: function(scope, element, attr, ctrl) {
 			function phoneValidation(value) {
-				var regular1 = /^(http(s?):\/\/)[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
-				var regular2 = /^(www\.)+[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/;
+				var regular1 = /^(http(s?):\/\/)[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/; // формат веб-сайта, начинающийся с http/s
+				var regular2 = /^(www\.)+[a-zA-Z0-9\.\-\_]+(\.[a-zA-Z]{2,3})+(\/[a-zA-Z0-9\_\-\s\.\/\?\%\#\&\=]*)?$/; // формат веб-сайта, начинающийся с www
 				if ( (regular1.test(value) == true) || (regular2.test(value) == true) ) {
 					ctrl.$setValidity('site', true);
 				}
@@ -334,9 +337,9 @@ proposeApp.directive('ngSiteValidation', function(){
 });
 
 proposeApp.controller('proposeCtrl', function($scope, $http) {
-	$scope.category = ['Club', 'Kino', 'Pizza', 'Sushi'];
-	$scope.price = ['1', '2', '3', '4', '5'];
-	$scope.ProposePlace = function() {
+	$scope.category = ['Club', 'Kino', 'Pizza', 'Sushi']; // массив катигорий для выпадающего списка
+	$scope.price = ['1', '2', '3', '4', '5']; // массив ценовых индексов для выпадающег осписка
+	$scope.ProposePlace = function() { // функция проверияет, имеется ли уже данное заведение в БД. Если нет, записывает предложенное
 		var checkPlace = false;
 		$http.get('../../php_scripts/functionality/propose/check_new_place.php').then(function(data) {
 			$scope.dbInfo = data;
@@ -361,14 +364,15 @@ proposeApp.controller('proposeCtrl', function($scope, $http) {
 					'site': $scope.site,
 				}).success(function(){
 					alert("Спасибо за новое место!");
-					window.location.replace("http://arrow.ru/");
+					window.location.reload();
 				});		
 			}
 		});
 	};
 });
 //////////////////////VOTES///////////////////////////////////////////////////////////////////////////////////////////////
-var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge','ngRoute']);
+var ratingApp = angular.module('ratingApp', ['angular-raphael-gauge','ngRoute']); // модуль страницы голосований(с подключёнными модулями отрисовки графика и Роутинга)
+
 ratingApp.controller('ratingCtrl', function($scope, $http) {
 ////////////////////////// Отрисовка графиков	
 	var graphOpacity = 0.55;
@@ -405,13 +409,13 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 	});
 	////////////////////////
 	//////////////////////// Отображение данных по графикам
-	$scope.showInfoPressed = 'false';
-	$scope.placeCSSStatus = ['inline', 'inline', 'inline', 'inline'];
-	$scope.placePathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
-	$scope.placeEtalonPathes = ['#/place1', '#/place2', '#/place3', '#/place4'];
-	$scope.placeSelectedStatus = [false, false, false, false];
+	$scope.showInfoPressed = 'false'; // хранит состояние отображенных с помощью роутинга данных
+	$scope.placeCSSStatus = ['inline', 'inline', 'inline', 'inline']; // массив состояний графиков(скрыты/отображены)
+	$scope.placePathes = ['#/place1', '#/place2', '#/place3', '#/place4']; // массив изменяемых ссылок для роутинга 
+	$scope.placeEtalonPathes = ['#/place1', '#/place2', '#/place3', '#/place4']; // массив исходных ссылок для роутинга
+	$scope.placeSelectedStatus = [false, false, false, false]; // массив состояний графиков(открыта/скрыта по ним дополнительная информация)
 
-	$scope.VisibleObjects = function(param) {
+	$scope.VisibleObjects = function(param) { // функция срывает/отображает графики и открывает по ним дополнительную информацию
 		if($scope.placeSelectedStatus[param] == false) {
 			for (var i = 0; i < $scope.placeSelectedStatus.length; i++) {
 				if(i != param) {
@@ -469,7 +473,7 @@ ratingApp.controller('ratingCtrl', function($scope, $http) {
 			}
 			if (checkUserVote == true) {
 				alert("Спасибо за участие, но ваш голос уже был принят:)");
-				window.location.replace("http://arrow.ru/functionality/votes/rating.php");
+				window.location.replace("../votes/rating.php");
 			}
 			else if (checkUserVote == false) {
 				$http.post('../../php_scripts/functionality/votes/post_new_vote.php', {

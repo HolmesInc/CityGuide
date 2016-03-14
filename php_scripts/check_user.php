@@ -1,15 +1,8 @@
-﻿<?php 
-	//определяем переменные для подключения к БД
-	$db_name  = 'arrow_db';
-	$hostname = '127.0.0.1';
-	$username = 'holmes';
-	$password = '123';
-
-	//подключаемся к базе
-	$dbConnect = new PDO("mysql:host=$hostname;dbname=$db_name", $username, $password);
+<?php 
+	require 'db_connect.php';
 	//получаем нужные нам данные
-	$querry = 'SELECT email FROM users';
-	$stmt = $dbConnect->prepare($querry);
+	$query = 'SELECT email FROM users';
+	$stmt = $dbh->prepare($query);
 	$stmt->execute();
 	//представляем результат в виде массива
 	$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
